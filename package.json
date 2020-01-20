@@ -1,8 +1,0 @@
-{
-  "name": "arno",
-  "version": "0.2.0",
-  "repository": "https://github.com/astrohamsters/arno.git",
-	"author": "Eugene Lepeico <03006jeka@gmail.com>",
-	"bin": "./server",
-  "license": "MIT"
-}

@@ -6,7 +6,8 @@
   "author": "Eugene Lepeico <03006jeka@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "pm2 start index.js --watch"
+    "start": "node index.js",
+    "dev": "pm2 start index.js --watch"
   },
   "dependencies": {
     "@koa/cors": "2",
