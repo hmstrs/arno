@@ -9,6 +9,10 @@ module.exports = gql`
   type Token {
     token: String!
   }
+  
+  type Password {
+    password: String!
+  }
 
   extend type Query {
     user(id: ID!): User!
@@ -19,5 +23,6 @@ module.exports = gql`
     createUser(name: String!, password: String!, email: String!): User!
     addGame(id: ID!): User!
     addFavourites(id: ID!): User!
+    resetPassword(email: String!) : null
   }
 `;
