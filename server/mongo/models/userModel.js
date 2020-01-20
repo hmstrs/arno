@@ -35,14 +35,12 @@ const userSchema = new mongoose.Schema({
       type: Schema.Types.ObjectId,
       ref: 'Song',
       required: true,
-    }]
-  }],
-  events: [
-    {
+    }],
+    favourites:[{
       type: Schema.Types.ObjectId,
-      ref: 'event',
-    },
-  ],
+      ref: 'Song',
+      required: true,
+    }],
 });
 
 userSchema.pre('save', function() {

@@ -17,6 +17,6 @@ module.exports = gql`
   }
 
   extend type Mutation {
-    createUser(name: String!, password: String!): User!
+    createUser(name: String!, password: String!, email: String!): User!
   }
 `;
