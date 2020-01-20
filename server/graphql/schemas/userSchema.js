@@ -4,7 +4,6 @@ module.exports = gql`
   type User {
     id: ID!
     name: String!
-    events: [Event!]!
   }
 
   type Token {
