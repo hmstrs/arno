@@ -40,10 +40,4 @@ module.exports = {
     },
   },
 
-  User: {
-    events: async ({ id }, args, { models: { eventModel } }, info) => {
-      const events = await eventModel.find({ owner: id }).exec();
-      return events;
-    },
-  },
 };
