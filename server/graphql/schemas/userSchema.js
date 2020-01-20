@@ -9,14 +9,14 @@ module.exports = gql`
   type Token {
     token: String!
   }
-  
+
   type Password {
     password: String!
   }
 
   extend type Query {
     user(id: ID!): User!
-    login(name: String!, password: String!): Token!
+    login(email: String!, password: String!): Token!
   }
 
   extend type Mutation {

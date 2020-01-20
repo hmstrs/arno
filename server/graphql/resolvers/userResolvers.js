@@ -13,8 +13,8 @@ module.exports = {
       const user = await userModel.findById({ _id: id }).exec();
       return user;
     },
-    login: async (parent, { name, password }, { models: { userModel } }, info) => {
-      const user = await userModel.findOne({ name }).exec();
+    login: async (parent, { email, password }, { models: { userModel } }, info) => {
+      const user = await userModel.findOne({ email }).exec();
 
       if (!user) {
         throw new AuthenticationError('Invalid credentials');
@@ -50,7 +50,7 @@ module.exports = {
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
       const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS.split(''));
       await userModel.findOneAndUpdate(
-        { email }, 
+        { email },
         { password: regeneratedPassword }
       ).exec();
       await sendMail({ email, regeneratedPassword });
