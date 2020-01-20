@@ -1,0 +1,22 @@
+.ArnoChat {
+  /* /width: 30vw; */
+  height: 100vh;
+  position: absolute;
+  left: 62.5%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  background: #f96900;
+}
+.main-text {
+  font-family: SF Pro Text;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 65px;
+  line-height: 78px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.02em;
+
+  color: #000000;
+}
