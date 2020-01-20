@@ -5,7 +5,7 @@
   "repository": "https://github.com/astrohamsters/arno.git",
 	"author": "Eugene Lepeico <03006jeka@gmail.com>",
 	"scripts": {
-		"start": "pm2 start server/index.js"
+		"start": "node server/index.js"
 	},
   "license": "MIT"
 }
