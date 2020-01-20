@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-koa');
+const { genPass, sendMail } = require('../../common');
 
 module.exports = {
   Query: {
@@ -37,6 +38,15 @@ module.exports = {
     createUser: async (parent, { name, password }, { models: { userModel } }, info) => {
       const user = await userModel.create({ name, password });
       return user;
+    },
+    resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
+      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS.split(''));
+      await userModel.findOneAndUpdate(
+        { email }, 
+        { password: regeneratedPassword }
+      ).exec();
+      await sendMail({ email, regeneratedPassword });
+      return null;
     },
   },
 
