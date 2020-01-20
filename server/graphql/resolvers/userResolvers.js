@@ -36,15 +36,15 @@ module.exports = {
 
   Mutation: {
     createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
-      const user = await userModel.create({ name, password, email });
+      const user = await userModel.create({ name, password, email, games: [] });
       return user;
     },
     addGame: async (parent, {id}, { models: { userModel } }, info) => {
-      const game = await userModel.findOneAndUpdate({_id: id})
+      const game = await userModel.findOneAndUpdate({ _id: id }).exec();
       return game;
     },
     addFavourites: async (parent, {id}, { models: { userModel } }, info) => {
-      const favourite = await userModel.findOneAndUpdate({_id: id})
+      const favourite = await userModel.findOneAndUpdate({ _id: id }).exec();
       return favourite;
     },
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {

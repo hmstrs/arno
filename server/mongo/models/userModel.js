@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Song',
       required: true,
     }],
+  }]
 });
 
 userSchema.pre('save', function() {
