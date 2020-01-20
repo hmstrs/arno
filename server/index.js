@@ -67,7 +67,7 @@ const httpServer = http.createServer(app.callback());
 
 server.installSubscriptionHandlers(httpServer);
 
-httpServer.listen({ port: 4000 }, () => {
+httpServer.listen({ port: process.env.PORT || 4000 }, () => {
   require('./mongo/db')();
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
   console.log(
