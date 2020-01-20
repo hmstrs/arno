@@ -12,7 +12,7 @@ module.exports = {
     },
     recogniseByHumming: async (parent, { humming }, context, info) => {
       const responce = await fetch(
-        process.env.AUDD_HUMMING, 
+        `${process.env.AUDD_HUMMING}?api_token=${process.env.API_TOKEN}`, // add humming here
         { method: 'POST', body: { humming } }
       ).then(res => res.json());
       return responce;
