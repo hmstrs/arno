@@ -13,7 +13,7 @@
   grid-column-gap: 10px;
   justify-items: center;
 
-  background: #1B1C1D;
+  background: #1b1c1d;
 }
 
 .btn-link {
@@ -21,7 +21,7 @@
 }
 
 .btn-link:hover {
-  color: #F96900;
+  color: #f96900;
 }
 
 .NavBar .btn-link {
@@ -29,18 +29,18 @@
 }
 
 .NavBar .btn-link.active {
-  color: #F96900;
+  color: #f96900;
 }
 
 .NavBar .primary {
   width: 60px;
-	height: 60px;
-	line-height: 0px;
+  height: 60px;
+  line-height: 0px;
 
   position: relative;
   bottom: 30px;
 
-  background: #F96900 !important;
+  background: #f96900 !important;
   border: none;
   border-radius: 50%;
   box-shadow: 0px 6px 9px rgba(249, 105, 0, 0.25);
@@ -48,7 +48,7 @@
 }
 
 .NavBar .primary:hover {
-  box-shadow: 0px 10px 15px rgba(249, 105, 0, 0.40);
+  box-shadow: 0px 10px 15px rgba(249, 105, 0, 0.4);
 }
 
 .NavBar .primary.active svg {
@@ -56,6 +56,7 @@
 }
 
 .moved {
-	transition: all ease 300ms;
-  width: calc(100vw-512px);
+  transition: all ease 300ms;
+  width: calc(100vw- 33vw);
+  /* width: calc(100vw-512px); */
 }

@@ -8,8 +8,10 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import Layout from './components/Layout/Layout';
-
 import History from './pages/History/History';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import './App.css';
 
 const httpLink = new HttpLink({
   uri: 'https://arnoapi.herokuapp.com/graphql',
@@ -46,15 +48,18 @@ const client = new ApolloClient({
 const App = () => (
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={History} />
-          <Route exact path="/favourites" component={() => 'favourites'} />
-          <Route exact path="/explore" component={() => 'explore'}
-          />
-          <Route exact path="/profile" component={() => 'profile'} />
-        </Switch>
-      </Layout>
+      <div className="App">
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <Layout>
+          <Switch>
+            <Route exact path="/" component={History} />
+            <Route exact path="/favourites" component={() => 'favourites'} />
+            <Route exact path="/explore" component={() => 'explore'} />
+            <Route exact path="/profile" component={() => 'profile'} />
+          </Switch>
+        </Layout>
+      </div>
     </BrowserRouter>
   </ApolloProvider>
 );

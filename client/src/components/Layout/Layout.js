@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import Main from '../Main/Main';
 import ArnoChat from '../ArnoChat/ArnoChat';
-import './Layout.css';
+// import './Layout.css';
 
 const Layout = ({ children }) => {
   const [gameStarted, setGameStarted] = useState(false);
   const gameClickHandler = () => setGameStarted(!gameStarted);
   return (
-    <div className="App">
-      <ArnoChat className={gameStarted ? 'active': ''}/>
+    <Fragment>
+      <ArnoChat className={gameStarted ? 'active' : ''} />
       <Main
         gameClickHandler={gameClickHandler}
         gameStarted={gameStarted}
         children={children}
       />
-    </div>
+    </Fragment>
   );
 };
 

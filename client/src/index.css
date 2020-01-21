@@ -4,8 +4,13 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	transition: all ease ease-in;
+  -moz-osx-font-smoothing: grayscale;
+  transition: all ease ease-in;
+}
+/* when gameStarted false - appears horizontal scroll  */
+html,
+body {
+  overflow-x: hidden;
 }
 
 code {

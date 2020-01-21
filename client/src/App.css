@@ -1,0 +1,7 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background-color: #26282b;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
