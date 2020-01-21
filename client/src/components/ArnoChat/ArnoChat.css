@@ -1,12 +1,12 @@
 .ArnoChat {
-  /* /width: 30vw; */
+  width: 512px;
   height: 100vh;
   position: absolute;
-  left: 62.5%;
-  right: 0%;
+  left: 100%;
   top: 0%;
   bottom: 0%;
-  background: #f96900;
+	background: #FF4E00;
+	z-index: 100;
 }
 .main-text {
   font-family: SF Pro Text;
@@ -18,5 +18,10 @@
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #000000;
+  color: #222;
+}
+
+.ArnoChat.active{
+	transform: translateX(-512px);
+	transition: all ease 300ms;
 }

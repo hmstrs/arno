@@ -13,7 +13,15 @@
   grid-column-gap: 10px;
   justify-items: center;
 
-  background: #222;
+  background: #1B1C1D;
+}
+
+.btn-link {
+  color: #fff;
+}
+
+.btn-link:hover {
+  color: #F96900;
 }
 
 .NavBar .btn-link {
@@ -21,34 +29,33 @@
 }
 
 .NavBar .btn-link.active {
-  color: #00c896;
+  color: #F96900;
 }
 
 .NavBar .primary {
   width: 60px;
-  height: 60px;
-  line-height: 40px;
+	height: 60px;
+	line-height: 0px;
 
   position: relative;
   bottom: 30px;
 
-  font-size: 32px;
-  background: #00c896 !important;
+  background: #F96900 !important;
   border: none;
   border-radius: 50%;
-  box-shadow: 0 5px 12px rgba(0, 200, 150, 0.12),
-    0 7px 15px rgba(0, 200, 150, 0.24);
+  box-shadow: 0px 6px 9px rgba(249, 105, 0, 0.25);
   transition: all ease 300ms;
 }
 
 .NavBar .primary:hover {
-  box-shadow: 0 14px 28px rgba(0, 200, 150, 0.25),
-    0 10px 10px rgba(0, 200, 150, 0.22);
+  box-shadow: 0px 10px 15px rgba(249, 105, 0, 0.40);
 }
 
 .NavBar .primary.active svg {
   transform: rotateZ(45deg);
 }
+
 .moved {
-  width: 62.5%;
+	transition: all ease 300ms;
+  width: calc(100vw-512px);
 }

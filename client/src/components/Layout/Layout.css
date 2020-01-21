@@ -1,15 +1,7 @@
 .App {
   text-align: center;
   min-height: 100vh;
-  background-color: #1b2f33;
+  background-color: #26282B;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.btn-link {
-  color: #fff;
-}
-
-.btn-link:hover {
-  color: rgba(0, 200, 150);
 }

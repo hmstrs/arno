@@ -1,8 +1,4 @@
 .moved {
-  width: 62.5%;
-  /* position: absolute;
-  left: 0;
-  right: 37.5%;
-  top: 0%;
-  bottom: 0%; */
+	width: calc(100vw - 512px);
+	transition: all ease 300ms;
 }

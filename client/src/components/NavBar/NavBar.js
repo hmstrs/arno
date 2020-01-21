@@ -2,37 +2,38 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 
 import {
-  FaRegMap,
-  FaRegHeart,
-  FaPlus,
-  FaRegBell,
-  FaRegUser
+  FaHistory,
+  FaHeart,
+  FaCompass,
+  FaUser
 } from 'react-icons/fa';
 
 import './NavBar.css';
 import NavLink from '../NavLink/NavLink';
 
+import arno from '../../assets/arno.svg'
+
 const NavBar = ({ gameStarted, gameClickHandler }) => {
   return (
     <div className={`NavBar ${gameStarted ? 'moved' : ''}`}>
       <NavLink to="/" exact>
-        <FaRegMap />
+        <FaHistory />
       </NavLink>
-      <NavLink to="/likes">
-        <FaRegHeart />
+      <NavLink to="/favourites">
+        <FaHeart />
       </NavLink>
       <Button
         variant="link"
         onClick={gameClickHandler}
         className={`primary ${gameStarted && 'active'}`}
       >
-        <FaPlus />
+        <img src={arno} alt=""/>
       </Button>
-      <NavLink to="/notifications">
-        <FaRegBell />
+      <NavLink to="/explore">
+        <FaCompass />
       </NavLink>
       <NavLink to="/profile">
-        <FaRegUser />
+        <FaUser />
       </NavLink>
     </div>
   );

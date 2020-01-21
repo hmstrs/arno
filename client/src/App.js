@@ -9,17 +9,17 @@ import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import Layout from './components/Layout/Layout';
 
-import Map from './pages/Map/Map';
+import History from './pages/History/History';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://arnoapi.herokuapp.com/graphql',
   headers: {
     token: localStorage.getItem('token') || ''
   }
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/graphql`,
+  uri: `ws://arnoapi.herokuapp.com/graphql`,
   options: {
     reconnect: true,
     connectionParams: {
@@ -48,12 +48,9 @@ const App = () => (
     <BrowserRouter>
       <Layout>
         <Switch>
-          <Route exact path="/" component={Map} />
-          <Route exact path="/likes" component={() => 'likes'} />
-          <Route
-            exact
-            path="/notifications"
-            component={() => 'notifications'}
+          <Route exact path="/" component={History} />
+          <Route exact path="/favourites" component={() => 'favourites'} />
+          <Route exact path="/explore" component={() => 'explore'}
           />
           <Route exact path="/profile" component={() => 'profile'} />
         </Switch>
