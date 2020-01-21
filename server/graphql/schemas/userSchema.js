@@ -23,6 +23,6 @@ module.exports = gql`
     createUser(name: String!, password: String!, email: String!): User!
     addGame(id: ID!): User!
     addFavourites(id: ID!): User!
-    resetPassword(email: String!) : null
+    resetPassword(email: String!) : Boolean!
   }
 `;

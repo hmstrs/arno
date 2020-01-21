@@ -6,26 +6,25 @@ module.exports = gql`
     reference: String!
     title: String!
     artist: String!
-    listened: Number!
-    favourited: Number!
+    listened: Int!
+    favourited: Int!
   }
 
   type Listened {
-    listened: Number!
+    listened: Int!
   }
 
   type Favourited {
-    favourited: Number!
+    favourited: Int!
   }
 
   extend type Query {
     add(id: ID!): User!
-    login(name: String!, password: String!): Token!
   }
 
   extend type Mutation {
     addListened(reference: String!): Listened!
-    addFavourited(reference: String!): Favourited!
+    addFavorited(reference: String!): Favourited!
     addSong(reference: String!, title: String!, artist: String): Song!
   }
 `;

@@ -48,13 +48,13 @@ module.exports = {
       return favourite;
     },
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
-      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS.split(''));
+      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS);
       await userModel.findOneAndUpdate(
         { email },
         { password: regeneratedPassword }
       ).exec();
       await sendMail({ email, regeneratedPassword });
-      return null;
+      return true;
     },
   },
 

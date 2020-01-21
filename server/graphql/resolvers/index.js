@@ -1,4 +1,4 @@
 const userResolver = require('./userResolvers');
-const eventResolver = require('./eventResolvers');
+const songResolver = require('./songResolver');
 
-module.exports = [userResolver, eventResolver];
+module.exports = [userResolver, songResolver];
