@@ -18,7 +18,10 @@ const Login = props => {
   const onChange = e =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
-  const onSubmit = () => alert('submit');
+  const onSubmit = () => {
+		localStorage.setItem('token', 'test');
+		window.location.reload(false);
+	}
 
   return (
     <div className="Login">
@@ -75,7 +78,7 @@ const Login = props => {
                       style={{
                         marginTop: '-7px'
                       }}
-                      to="/restore-password"
+                      to="/recover"
                     >
                       <span className="button-text text-restore">
                         Восстановить пароль
