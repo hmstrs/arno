@@ -10,11 +10,11 @@ module.exports = {
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
-      const user = await userModel.findById({ _id: id }).exec();
+      const user = await userModel.findById({ _id: id });
       return user;
     },
     login: async (parent, { email, password }, { models: { userModel } }, info) => {
-      const user = await userModel.findOne({ email }).exec();
+      const user = await userModel.findOne({ email });
 
       if (!user) {
         throw new AuthenticationError('Invalid credentials');
@@ -36,15 +36,18 @@ module.exports = {
 
   Mutation: {
     createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
-      const user = await userModel.create({ name, password, email, games: [] });
-      return user;
+      let foundUser = await userModel.findOne({ email });
+      if (!foundUser) {
+        foundUser = await userModel.create({ name, password, email, games: [] });
+      }
+      return foundUser;
     },
-    addGame: async (parent, {id}, { models: { userModel } }, info) => {
-      const game = await userModel.findOneAndUpdate({ _id: id }).exec();
+    addGame: async (parent, { id }, { models: { userModel } }, info) => {
+      const game = await userModel.findOneAndUpdate({ _id: id });
       return game;
     },
-    addFavourites: async (parent, {id}, { models: { userModel } }, info) => {
-      const favourite = await userModel.findOneAndUpdate({ _id: id }).exec();
+    addFavourites: async (parent, { id }, { models: { userModel } }, info) => {
+      const favourite = await userModel.findOneAndUpdate({ _id: id });
       return favourite;
     },
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
@@ -52,7 +55,7 @@ module.exports = {
       await userModel.findOneAndUpdate(
         { email },
         { password: regeneratedPassword }
-      ).exec();
+      );
       await sendMail({ email, regeneratedPassword });
       return true;
     },

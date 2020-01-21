@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
       ref: 'Song',
       required: true,
     }],
-    favourites:[{
+    favourites: [{
       type: Schema.Types.ObjectId,
       ref: 'Song',
       required: true,

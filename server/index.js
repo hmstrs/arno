@@ -10,7 +10,7 @@ const schemas = require('./graphql/schemas');
 const resolvers = require('./graphql/resolvers');
 
 const userModel = require('./mongo/models/userModel');
-const songModel = require('./mongo/models/songModel')
+const songModel = require('./mongo/models/songModel');
 
 const app = new Koa();
 app.use(cors());
@@ -45,9 +45,9 @@ const server = new ApolloServer({
   subscriptions: {
     keepAlive: 1000,
     onConnect: async (
-      // connectionParams,
-      // websocket,
-      // context
+    // connectionParams,
+    // websocket,
+    // context
     ) => {
       console.log('🔌 WS Connected!');
     },
