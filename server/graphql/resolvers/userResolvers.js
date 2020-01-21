@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-koa');
+const { genPass, sendMail } = require('../../common');
 
 module.exports = {
   Query: {
@@ -12,8 +13,8 @@ module.exports = {
       const user = await userModel.findById({ _id: id }).exec();
       return user;
     },
-    login: async (parent, { name, password }, { models: { userModel } }, info) => {
-      const user = await userModel.findOne({ name }).exec();
+    login: async (parent, { email, password }, { models: { userModel } }, info) => {
+      const user = await userModel.findOne({ email }).exec();
 
       if (!user) {
         throw new AuthenticationError('Invalid credentials');
@@ -34,16 +35,27 @@ module.exports = {
   },
 
   Mutation: {
-    createUser: async (parent, { name, password }, { models: { userModel } }, info) => {
-      const user = await userModel.create({ name, password });
+    createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
+      const user = await userModel.create({ name, password, email, games: [] });
       return user;
+    },
+    addGame: async (parent, {id}, { models: { userModel } }, info) => {
+      const game = await userModel.findOneAndUpdate({ _id: id }).exec();
+      return game;
+    },
+    addFavourites: async (parent, {id}, { models: { userModel } }, info) => {
+      const favourite = await userModel.findOneAndUpdate({ _id: id }).exec();
+      return favourite;
+    },
+    resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
+      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS.split(''));
+      await userModel.findOneAndUpdate(
+        { email },
+        { password: regeneratedPassword }
+      ).exec();
+      await sendMail({ email, regeneratedPassword });
+      return null;
     },
   },
 
-  User: {
-    events: async ({ id }, args, { models: { eventModel } }, info) => {
-      const events = await eventModel.find({ owner: id }).exec();
-      return events;
-    },
-  },
 };

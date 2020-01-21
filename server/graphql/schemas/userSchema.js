@@ -4,19 +4,25 @@ module.exports = gql`
   type User {
     id: ID!
     name: String!
-    events: [Event!]!
   }
 
   type Token {
     token: String!
   }
 
+  type Password {
+    password: String!
+  }
+
   extend type Query {
     user(id: ID!): User!
-    login(name: String!, password: String!): Token!
+    login(email: String!, password: String!): Token!
   }
 
   extend type Mutation {
-    createUser(name: String!, password: String!): User!
+    createUser(name: String!, password: String!, email: String!): User!
+    addGame(id: ID!): User!
+    addFavourites(id: ID!): User!
+    resetPassword(email: String!) : null
   }
 `;

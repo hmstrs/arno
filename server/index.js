@@ -10,7 +10,7 @@ const schemas = require('./graphql/schemas');
 const resolvers = require('./graphql/resolvers');
 
 const userModel = require('./mongo/models/userModel');
-const eventModel = require('./mongo/models/eventModel');
+const songModel = require('./mongo/models/songModel')
 
 const app = new Koa();
 app.use(cors());
@@ -37,7 +37,7 @@ const server = new ApolloServer({
         me,
         models: {
           userModel,
-          eventModel,
+          songModel,
         },
       };
     }
