@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import NavLink from '../../components/NavLink/NavLink';
 import { Container, Col, Row, Button } from 'react-bootstrap';
+import NavLink from '../../components/NavLink/NavLink';
+import TextInput from '../../components/TextInput/TextInput';
 import './Login.css';
 
 const Login = props => {
@@ -11,6 +12,7 @@ const Login = props => {
   const LoginSize = {
     height: 400
   };
+  const inputWidth = 0.8 * formSize.width;
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
@@ -22,12 +24,7 @@ const Login = props => {
 
   return (
     <div className="Login">
-      <Container
-        style={{
-          height: `${LoginSize.height}px`
-        }}
-        fluid={true}
-      >
+      <Container fluid={true}>
         <Row>
           <Col lg={8} className="mx-auto">
             <form onSubmit={onSubmit}>
@@ -41,22 +38,22 @@ const Login = props => {
               >
                 <Row>
                   <Col>
-                    <input
+                    <TextInput
                       style={{
                         marginTop: '60px'
                       }}
-                      className="form-control form-text mx-auto"
+                      className="mx-auto"
                       type="email"
                       name="email"
                       placeholder="Эл. Почта"
                       value={inputs.email}
                       onChange={onChange}
                     />
-                    <input
+                    <TextInput
                       style={{
                         marginTop: '40px'
                       }}
-                      className="form-control form-text mx-auto"
+                      className="mx-auto"
                       type="password"
                       name="password"
                       placeholder="Пароль"
@@ -67,10 +64,17 @@ const Login = props => {
                 </Row>
                 <Row
                   style={{
+                    width: `${inputWidth}px`,
                     marginTop: '40px'
                   }}
+                  className="mx-auto"
                 >
-                  <Col>
+                  <Col
+                    style={{
+                      width: `${inputWidth / 2}px`
+                    }}
+                    className="px-0"
+                  >
                     <NavLink
                       style={{
                         marginTop: '-7px'
@@ -78,7 +82,7 @@ const Login = props => {
                       to="/restore-password"
                     >
                       <span className="button-text text-restore">
-                        Восстановить пароль
+                        Восстановить <br /> пароль
                       </span>
                     </NavLink>
                   </Col>
@@ -87,7 +91,7 @@ const Login = props => {
                       onClick={onSubmit}
                       variant="link"
                       size="lg"
-                      className="button button-login"
+                      className="button-login"
                     >
                       <span className="button-text text-login">Войти</span>
                     </Button>

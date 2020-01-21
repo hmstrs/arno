@@ -2,28 +2,26 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
+import './RestorePassword.css';
 
-import './Register.css';
-
-const Register = props => {
+const RestorePassword = props => {
   const formSize = {
     width: 295,
-    height: 389
+    height: 207
   };
-  const RegisterSize = {
-    height: 510
+  const RestorePasswordSize = {
+    height: 285
   };
   const [inputs, setInputs] = useState({
-    name: '',
-    email: '',
-    password: ''
+    email: ''
   });
   const onChange = e =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
   const onSubmit = () => alert('submit');
+
   return (
-    <div className="Register">
+    <div className="RestorePassword">
       <Container fluid={true}>
         <Row>
           <Col lg={8} className="mx-auto">
@@ -32,7 +30,7 @@ const Register = props => {
                 style={{
                   height: `${formSize.height}px`,
                   width: `${formSize.width}px`,
-                  marginTop: `calc(50vh - ${RegisterSize.height / 2}px)`
+                  marginTop: `calc(50vh - ${RestorePasswordSize.height / 2}px)`
                 }}
                 className="form-group mx-auto"
               >
@@ -40,19 +38,7 @@ const Register = props => {
                   <Col>
                     <TextInput
                       style={{
-                        marginTop: '40px'
-                      }}
-                      className="mx-auto"
-                      type="text"
-                      name="name"
-                      placeholder="Имя пользователя"
-                      value={inputs.name}
-                      onChange={onChange}
-                    />
-
-                    <TextInput
-                      style={{
-                        marginTop: '40px'
+                        marginTop: '34px'
                       }}
                       className="mx-auto"
                       type="email"
@@ -61,22 +47,11 @@ const Register = props => {
                       value={inputs.email}
                       onChange={onChange}
                     />
-                    <TextInput
-                      style={{
-                        marginTop: '40px'
-                      }}
-                      className="mx-auto"
-                      type="password"
-                      name="password"
-                      placeholder="Пароль"
-                      value={inputs.password}
-                      onChange={onChange}
-                    />
                   </Col>
                 </Row>
                 <Row
                   style={{
-                    marginTop: '30px'
+                    marginTop: '40px'
                   }}
                 >
                   <Col>
@@ -86,8 +61,8 @@ const Register = props => {
                       size="lg"
                       className="button-login"
                     >
-                      <span className="button-text text-login">
-                        Зарегистрироваться
+                      <span className="button-text text-new-pass">
+                        Отправить новый пароль
                       </span>
                     </Button>
                   </Col>
@@ -99,12 +74,11 @@ const Register = props => {
         <Row
           className="mx-auto"
           style={{
-            marginTop: '20px',
             width: `${formSize.width}px`
           }}
         >
           <Col className="px-0">
-            <p className="mt-3 button-text text-have-acc">Уже есть аккаунт?</p>
+            <p className="mt-3 button-text text-have-acc">Вспомнили пароль?</p>
           </Col>
           <Col className="px-0">
             <NavLink
@@ -122,5 +96,4 @@ const Register = props => {
     </div>
   );
 };
-
-export default Register;
+export default RestorePassword;

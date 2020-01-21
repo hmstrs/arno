@@ -1,0 +1,15 @@
+.text-register {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.text-have-acc {
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.text-login {
+  font-size: 18px;
+  line-height: 21px;
+  text-decoration-line: none;
+}

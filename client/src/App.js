@@ -11,6 +11,7 @@ import Layout from './components/Layout/Layout';
 import History from './pages/History/History';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import RestorePassword from './pages/RestorePassword/RestorePassword';
 import './App.css';
 
 const httpLink = new HttpLink({
@@ -51,6 +52,7 @@ const App = () => (
       <div className="App">
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/restore-password" component={RestorePassword} />
         <Layout>
           <Switch>
             <Route exact path="/" component={History} />

@@ -5,36 +5,6 @@
   background: #f96900;
   border-radius: 14.4407px;
 }
-.form-control {
-  width: 80%;
-  height: 54px;
-  background: #f96900;
-  border-color: hsl(25, 100%, 49%);
-  box-shadow: inset 2.88814px 2.88814px 14.4407px rgba(0, 0, 0, 0.15),
-    inset -2.88814px -2.88814px 14.4407px rgba(255, 255, 255, 0.15);
-  border-radius: 14.4407px;
-}
-
-form .form-control:focus {
-  border-color: #f96900;
-  background: #f96900;
-  box-shadow: 0 0 0 0.2rem rgba(54, 53, 53, 0.459);
-}
-
-form .form-control::placeholder {
-  color: #ffffff;
-}
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-box-shadow: inset 2.88814px 2.88814px 14.4407px rgba(0, 0, 0, 0.15),
-    0 0 0 30px #f96900 inset;
-}
-
-input:-webkit-autofill {
-  -webkit-text-fill-color: white;
-}
 
 .button-login {
   background: #f96900;
@@ -65,25 +35,15 @@ input:-webkit-autofill {
   letter-spacing: -0.02em;
   color: #fffffa !important;
 }
-.form-text {
-  font-family: SF Pro Text;
-  font-style: normal;
-  font-weight: bold;
-  align-items: center;
-  letter-spacing: -0.02em;
-  text-indent: 21.661px;
-  color: #fffffa !important;
-  font-size: 20.2169px;
-  line-height: 24px;
-}
+
 .text-no-acc {
   font-size: 12px;
   line-height: 14px;
 }
 
 .text-login {
-  font-size: 25.9932px;
-  line-height: 31px;
+  font-size: 18px;
+  line-height: 21px;
 }
 
 .text-restore {
