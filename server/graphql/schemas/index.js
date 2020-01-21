@@ -1,5 +1,5 @@
 const userSchema = require('./userSchema');
-const eventSchema = require('./eventSchema');
+const songSchema = require('./songSchema');
 const { gql } = require('apollo-server-koa');
 
 const linkSchema = gql`
@@ -11,4 +11,4 @@ const linkSchema = gql`
   }
 `;
 
-module.exports = [linkSchema, userSchema, eventSchema];
+module.exports = [linkSchema, userSchema, songSchema];

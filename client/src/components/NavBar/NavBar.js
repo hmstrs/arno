@@ -5,7 +5,8 @@ import {
   FaHistory,
   FaHeart,
   FaCompass,
-  FaUser
+	FaUser,
+	FaPlus
 } from 'react-icons/fa';
 
 import './NavBar.css';
@@ -27,7 +28,7 @@ const NavBar = ({ gameStarted, gameClickHandler }) => {
         onClick={gameClickHandler}
         className={`primary ${gameStarted && 'active'}`}
       >
-        <img src={arno} alt=""/>
+        {!gameStarted ? <img src={arno} alt=""/> : <FaPlus /> }
       </Button>
       <NavLink to="/explore">
         <FaCompass />

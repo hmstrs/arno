@@ -1,5 +1,8 @@
-.moved {
-  width: calc(100vw - 33vw);
-  /* width: calc(100vw - 512px); */
+.Main {
+	width: 100vw;
   transition: all ease 300ms;
+}
+
+.moved {
+  width: calc(67vw);
 }

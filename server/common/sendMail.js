@@ -10,15 +10,14 @@ const options = {
 
 const client = nodemailer.createTransport(sgTransport(options));
 
-
 const sendMail = async ({ email, regeneratedPassword }) => {
-  const email = {
+  const mail = {
     from: 'donald.trump@usa.com',
     to: email,
     subject: 'Password Reset',
     text: regeneratedPassword,
   };
-  return client.sendMail(email);
+  return client.sendMail(mail);
 };
 
 module.exports = sendMail;

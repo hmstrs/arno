@@ -13,6 +13,7 @@
   grid-column-gap: 10px;
   justify-items: center;
 
+  transition: all ease 300ms;
   background: #1b1c1d;
 }
 
@@ -56,7 +57,5 @@
 }
 
 .moved {
-  transition: all ease 300ms;
-  width: calc(100vw- 33vw);
-  /* width: calc(100vw-512px); */
+  width: calc(67vw);
 }
