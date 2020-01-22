@@ -44,14 +44,28 @@ module.exports = {
   },
 
   Mutation: {
+<<<<<<< HEAD
     createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
       const { isValid, errors } = validateRegister({ name, email, password });
       if (!isValid) {
         throw new UserInputError('Registration failed', { errors });
       }
+=======
+    createUser: async (
+      parent,
+      { name, password, email },
+      { models: { userModel } },
+      info
+    ) => {
+>>>>>>> master
       let foundUser = await userModel.findOne({ email });
       if (!foundUser) {
-        foundUser = await userModel.create({ name, password, email, games: [] });
+        foundUser = await userModel.create({
+          name,
+          password,
+          email,
+          games: [],
+        });
       }
       return foundUser;
     },
@@ -69,6 +83,7 @@ module.exports = {
       const favourite = await userModel.findOneAndUpdate({ _id: id });
       return favourite;
     },
+<<<<<<< HEAD
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
       const { isValid, errors } = validateRecover({ email });
       if (!isValid) {
@@ -78,10 +93,22 @@ module.exports = {
       await userModel.findOneAndUpdate(
         { email },
         { password: regeneratedPassword }
+=======
+    resetPassword: async (
+      parent,
+      { email },
+      { models: { userModel } },
+      info
+    ) => {
+      const regeneratedPassword = genPass(
+        process.env.PASSWORD_LENGTH,
+        process.env.CHARS
+>>>>>>> master
       );
+      const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
+      await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
       await sendMail({ email, regeneratedPassword });
       return true;
     },
   },
-
 };

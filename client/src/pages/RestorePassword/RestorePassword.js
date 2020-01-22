@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
+import validateRecover from '../../tools/validation/validateRecover';
+import getDiffpx from '../../tools/getDiffpx';
+
 import './RestorePassword.css';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const RECOVER_PASSWORD = gql`
+  mutation resetPassword($email: String!) {
+    resetPassword(email: $email)
+  }
+`;
 
 const RestorePassword = props => {
   const formSize = {
@@ -12,13 +23,32 @@ const RestorePassword = props => {
   const RestorePasswordSize = {
     height: 285
   };
+  const [errors, setErrors] = useState({});
+
   const [inputs, setInputs] = useState({
     email: ''
   });
+  const [recoverPassword] = useMutation(RECOVER_PASSWORD);
+
   const onChange = e =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
-  const onSubmit = () => alert('submit');
+  const onSubmit = () => {
+    const { errors, isValid } = validateRecover(inputs);
+    !isValid
+      ? setErrors(errors)
+      : recoverPassword({
+          variables: inputs
+        })
+          .then(res => {
+            console.log('res', res);
+            props.history.push('/login');
+          })
+          .catch(err => {
+            console.log(err);
+            setErrors({ ...errors, email: err.message });
+          });
+  };
 
   return (
     <div className="RestorePassword">
@@ -43,6 +73,7 @@ const RestorePassword = props => {
                       className="mx-auto"
                       type="email"
                       name="email"
+                      error={errors.email}
                       placeholder="Эл. Почта"
                       value={inputs.email}
                       onChange={onChange}
@@ -51,7 +82,7 @@ const RestorePassword = props => {
                 </Row>
                 <Row
                   style={{
-                    marginTop: '40px'
+                    marginTop: `${getDiffpx(errors.email, 40)}px`
                   }}
                 >
                   <Col>

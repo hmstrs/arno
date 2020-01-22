@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import './TextInput.css';
 
@@ -6,23 +6,30 @@ const TextInput = ({
   style,
   className,
   type,
+  error,
   name,
   placeholder,
   value,
   onChange
-}) => (
-  <input
-    type={type}
-    style={style}
-    className={`form-control form-text ${className ? className : ''}`}
-    placeholder={placeholder}
-    name={name}
-    value={value}
-    onChange={onChange}
-  />
-);
+}) => {
+  return (
+    <Fragment>
+      <input
+        type={type}
+        style={style}
+        className={`form-control form-text ${className ? className : ''}`}
+        placeholder={placeholder}
+        name={name}
+        value={value}
+        onChange={onChange}
+      />
+      {error && <div className="is-invalid">{error} </div>}
+    </Fragment>
+  );
+};
 TextInput.propTypes = {
   name: PropTypes.string.isRequired,
+  error: PropTypes.string,
   style: PropTypes.object,
   className: PropTypes.string,
   placeholder: PropTypes.string,
