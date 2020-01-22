@@ -4,6 +4,8 @@ module.exports = gql`
   type User {
     id: ID!
     name: String!
+    email: String!
+    games: [Object!]!
   }
 
   type Token {
