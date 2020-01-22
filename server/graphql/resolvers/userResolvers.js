@@ -36,13 +36,21 @@ module.exports = {
       const user = await userModel.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError('Invalid credentials');
+        throw new UserInputError('Login failed', {
+          errors: {
+            email: 'Такого пользователя не существует',
+          },
+        });
       }
 
       const matchPasswords = bcrypt.compareSync(password, user.password);
 
       if (!matchPasswords) {
-        throw new AuthenticationError('Invalid credentials');
+        throw new UserInputError('Login failed', {
+          errors: {
+            password: 'Укажите правильный пароль',
+          },
+        });
       }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT || 'secret');
@@ -66,7 +74,11 @@ module.exports = {
       }
       let foundUser = await userModel.findOne({ email });
       if (foundUser) {
-        throw new UserInputError('Email is already exists.');
+        throw new UserInputError('Registration failed', {
+          errors: {
+            email: 'Пользователь с такой почтой уже зарегистрирован',
+          },
+        });
       }
       foundUser = await userModel.create({
         name,
@@ -105,9 +117,16 @@ module.exports = {
         process.env.CHARS
       );
       const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
-      const updated = await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
+      const updated = await userModel.findOneAndUpdate(
+        { email },
+        { password: hashedPassword }
+      );
       if (!updated) {
-        throw new UserInputError('Emanil not found.');
+        throw new UserInputError('Recover failed.', {
+          errors: {
+            email: 'Такого пользователя не существует',
+          },
+        });
       }
       await sendMail({ email, regeneratedPassword });
       return true;

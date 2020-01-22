@@ -44,7 +44,7 @@ const RestorePassword = props => {
         if (err.graphQLErrors.length > 0) {
           const { code, errors } = err.graphQLErrors[0].extensions;
           code === 'BAD_USER_INPUT' && setErrors(errors);
-        } else setErrors({ ...errors, password: err.networkError.message });
+        } else setErrors({ ...errors, email: err.networkError.message });
       });
   };
 
