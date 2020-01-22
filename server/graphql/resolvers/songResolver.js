@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const { UserInputError } = require('apollo-server-koa');
 
 module.exports = {
   Mutation: {
@@ -19,6 +20,7 @@ module.exports = {
       return updatedCounter;
     },
     addSong: async (parent, { reference, artist, title }, { models: { songModel } }, info) => {
+      // add validation here
       let foundSong = await songModel.findOne({ reference });
       if (!foundSong) {
         foundSong = await songModel.create({

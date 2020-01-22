@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { AuthenticationError } = require('apollo-server-koa');
+const { AuthenticationError, UserInputError } = require('apollo-server-koa');
 const { genPass, sendMail } = require('../../common');
+const { validateLogin, validateRegister, validateRecover, validateId } = require('../../validation');
 
 module.exports = {
   Query: {
@@ -10,10 +11,18 @@ module.exports = {
       if (!me) {
         throw new AuthenticationError('You are not authenticated');
       }
+      if (!validateId(id)) {
+        throw new UserInputError('Bad Id');
+      }
       const user = await userModel.findById({ _id: id });
       return user;
     },
     login: async (parent, { email, password }, { models: { userModel } }, info) => {
+      const { isValid, errors } = validateLogin({ email, password });
+      if (!isValid) {
+        throw new UserInputError('Login failed', { errors });
+      }
+
       const user = await userModel.findOne({ email });
 
       if (!user) {
@@ -36,6 +45,10 @@ module.exports = {
 
   Mutation: {
     createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
+      const { isValid, errors } = validateRegister({ name, email, password });
+      if (!isValid) {
+        throw new UserInputError('Registration failed', { errors });
+      }
       let foundUser = await userModel.findOne({ email });
       if (!foundUser) {
         foundUser = await userModel.create({ name, password, email, games: [] });
@@ -43,14 +56,24 @@ module.exports = {
       return foundUser;
     },
     addGame: async (parent, { id }, { models: { userModel } }, info) => {
+      if (!validateId(id)) {
+        throw new UserInputError('Bad Id');
+      }
       const game = await userModel.findOneAndUpdate({ _id: id });
       return game;
     },
     addFavourites: async (parent, { id }, { models: { userModel } }, info) => {
+      if (!validateId(id)) {
+        throw new UserInputError('Bad Id');
+      }
       const favourite = await userModel.findOneAndUpdate({ _id: id });
       return favourite;
     },
     resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
+      const { isValid, errors } = validateRecover({ email });
+      if (!isValid) {
+        throw new UserInputError('Recover failed.', { errors });
+      }
       const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS);
       await userModel.findOneAndUpdate(
         { email },
