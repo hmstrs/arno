@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
-import validateRegister from '../../tools/validation/validateRegister';
 import getDiffpx from '../../tools/getDiffpx';
 
 import './Register.css';
@@ -37,20 +36,20 @@ const Register = props => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   const [postUser] = useMutation(POST_USER);
   const onSubmit = () => {
-    const { errors, isValid } = validateRegister(inputs);
-    !isValid
-      ? setErrors(errors)
-      : postUser({
-          variables: inputs
-        })
-          .then(res => {
-            console.log('res', res);
-            props.history.push('/login');
-          })
-          .catch(err => {
-            console.log(err);
-            setErrors({ ...errors, password: err.message });
-          });
+    postUser({
+      variables: inputs
+    })
+      .then(res => {
+        console.log('res', res);
+        props.history.push('/login');
+      })
+      .catch(err => {
+        // console.log(err);
+        if (err.graphQLErrors.length > 0) {
+          const { code, errors } = err.graphQLErrors[0].extensions;
+          code === 'BAD_USER_INPUT' && setErrors(errors);
+        } else setErrors({ ...errors, password: err.networkError.message });
+      });
   };
 
   return (

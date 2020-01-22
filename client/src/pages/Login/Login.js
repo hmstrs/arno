@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
-import validateLogin from '../../tools/validation/validateLogin';
 import getDiffpx from '../../tools/getDiffpx';
 
 import './Login.css';
@@ -39,8 +38,10 @@ const Login = props => {
       window.location.reload(false);
     },
     onError: err => {
-      console.log(err);
-      setErrors({ ...errors, password: err.message });
+      if (err.graphQLErrors.length > 0) {
+        const { code, errors } = err.graphQLErrors[0].extensions;
+        code === 'BAD_USER_INPUT' && setErrors(errors);
+      } else setErrors({ ...errors, password: err.networkError.message });
     }
   });
 
@@ -53,8 +54,7 @@ const Login = props => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
   const onSubmit = () => {
-    const { errors, isValid } = validateLogin(inputs);
-    !isValid ? setErrors(errors) : loginUserHelper();
+    loginUserHelper();
   };
 
   return (
