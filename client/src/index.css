@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: all ease ease-in;
+  transition: all ease 300ms;
 }
 /* when gameStarted false - appears horizontal scroll  */
 html,

@@ -1,0 +1,69 @@
+header {
+	height: 80px;
+	width: 100%;
+	padding: 0 20%;
+	box-sizing: border-box;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	background: none !important;
+}
+
+.landing .btn {
+	height: 40px;
+	width: 160px;
+
+	background: #f96900;
+	color: #fff !important;
+  box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.15),
+    -6px -6px 14px rgba(255, 255, 255, 0.15);
+	border-radius: 15px;
+
+	font-size: 18px;
+	font-weight: bold;
+
+	transition: all ease 300ms;
+}
+
+.landing .btn:hover {
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15),
+    -1px -1px 4px rgba(255, 255, 255, 0.15);
+}
+
+.hero {
+	height: 100vh;
+	width: 100%;
+	padding: 0 25%;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+
+	background: url('../../assets/bubble.svg') no-repeat;
+	background-position: right top;
+	background-size: contain;
+
+	z-index: 1;
+}
+
+.hero h1 {
+	font-size: 50px;
+}
+
+.hero h4 {
+	color: #ffffffcc;
+}
+
+.hero .btn {
+	margin-top: 12vw;
+}
+

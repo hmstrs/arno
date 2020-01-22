@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { LinkContainer } from 'react-router-bootstrap';
 import './NavLink.css';
 
-function NavLink({ back, location, to, children, className, ...props }) {
+function NavLink({ back, location, to, children, className = '', ...props }) {
   const active = location.pathname === to;
   return (
     <LinkContainer
@@ -17,7 +17,7 @@ function NavLink({ back, location, to, children, className, ...props }) {
       }}
       {...props}
     >
-      <Button variant="link" className={`${className} ${active && 'active'}`}>
+      <Button variant="link" className={`${className} ${active ? 'active' : ''}`}>
         {children}
       </Button>
     </LinkContainer>

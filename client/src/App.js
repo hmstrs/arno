@@ -8,6 +8,7 @@ import { HttpLink } from 'apollo-link-http';
 import Layout from './components/Layout/Layout';
 
 import History from './pages/History/History';
+import Profile from './pages/Profile/Profile';
 
 import Landing from './pages/Landing/Landing';
 import Login from './pages/Login/Login';
@@ -37,7 +38,7 @@ const App = () => (
               <Route exact path="/" component={History} />
               <Route exact path="/favourites" component={() => 'favourites'} />
               <Route exact path="/explore" component={() => 'explore'} />
-              <Route exact path="/profile" component={() => 'profile'} />
+              <Route exact path="/profile" component={Profile} />
               <Redirect to="/" />
             </Switch>
           </Layout>

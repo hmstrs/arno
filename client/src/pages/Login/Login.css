@@ -1,4 +1,5 @@
 .Login {
+	text-align: center;
   height: 100vh;
 }
 .form-group {
@@ -51,7 +52,9 @@
   line-height: 21px;
   text-decoration-line: underline;
 }
+
 .text-register {
+
   font-size: 18px;
   line-height: 21px;
   text-decoration-line: none;
