@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ArnoChat.css';
 import Logo from './logo.svg';
 
 const ArnoChat = ({ className }) => {
+  const [message, setMessage] = useState('hello');
+
   return (
     <div className={"ArnoChat " + className}>
       <div className="chat-wrapper">
@@ -18,10 +20,10 @@ const ArnoChat = ({ className }) => {
         <p className="main-text arno-text">тут говорит арно уже больше слов, проверяю размер рамки</p>
       </div>
       
-      <form className="bottom">
-        <input type="text" className="input" value="Lyrics here" name="chat" />
-        <button></button>
-      </form>
+      <div className="bottom">
+        <input type="text" className="input" value={message} name="chat" onChange={setMessage}/>
+        <button className="audio"/>
+      </div>
     </div>
   );
 };

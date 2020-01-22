@@ -29,6 +29,7 @@
 
 .chat-wrapper {
   height: 90%;
+  width: 100%;
   position: fixed;
   overflow-y: scroll;
 }
@@ -61,7 +62,7 @@
   flex: 3;
 }
 
-button {
+.audio {
   min-width: 30px;
   min-height: 30px;
   background-color: transparent;
