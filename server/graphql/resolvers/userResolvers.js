@@ -36,13 +36,21 @@ module.exports = {
       const user = await userModel.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError('Invalid credentials');
+        throw new UserInputError('Login failed', {
+          errors: {
+            email: 'Такого пользователя не существует',
+          },
+        });
       }
 
       const matchPasswords = bcrypt.compareSync(password, user.password);
 
       if (!matchPasswords) {
-        throw new AuthenticationError('Invalid credentials');
+        throw new UserInputError('Login failed', {
+          errors: {
+            password: 'Укажите правильный пароль',
+          },
+        });
       }
 
       const token = jwt.sign({ id: user.id }, process.env.JWT || 'secret');
@@ -65,14 +73,19 @@ module.exports = {
         throw new UserInputError('Registration failed', { errors });
       }
       let foundUser = await userModel.findOne({ email });
-      if (!foundUser) {
-        foundUser = await userModel.create({
-          name,
-          password,
-          email,
-          games: [],
+      if (foundUser) {
+        throw new UserInputError('Registration failed', {
+          errors: {
+            email: 'Пользователь с такой почтой уже зарегистрирован',
+          },
         });
       }
+      foundUser = await userModel.create({
+        name,
+        password,
+        email,
+        games: [],
+      });
       return foundUser;
     },
     addGame: async (parent, { id }, { models: { userModel } }, info) => {
@@ -103,12 +116,18 @@ module.exports = {
         process.env.PASSWORD_LENGTH,
         process.env.CHARS
       );
-      await userModel.findOneAndUpdate(
-        { email },
-        { password: regeneratedPassword }
-      );
       const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
-      await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
+      const updated = await userModel.findOneAndUpdate(
+        { email },
+        { password: hashedPassword }
+      );
+      if (!updated) {
+        throw new UserInputError('Recover failed.', {
+          errors: {
+            email: 'Такого пользователя не существует',
+          },
+        });
+      }
       await sendMail({ email, regeneratedPassword });
       return true;
     },
