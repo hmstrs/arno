@@ -77,9 +77,7 @@ module.exports = {
       );
       const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
       await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
-      console.log(regeneratedPassword);
-
-      // await sendMail({ email, regeneratedPassword });
+      await sendMail({ email, regeneratedPassword });
       return true;
     },
   },
