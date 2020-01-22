@@ -20,8 +20,8 @@ const token = localStorage.getItem('token');
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://localhost:4000/graphql',
-    // uri: 'https://arnoapi.herokuapp.com/graphql',
+    // uri: 'http://localhost:4000/graphql',
+    uri: 'https://arnoapi.herokuapp.com/graphql',
     headers: {
       token: token || ''
     }
