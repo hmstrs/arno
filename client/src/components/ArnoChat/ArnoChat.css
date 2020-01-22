@@ -8,6 +8,7 @@
   background: #ff4e00;
   transition: all ease 300ms;
   z-index: 100;
+  overflow-y: scroll;
 }
 
 .main-text {
@@ -27,6 +28,12 @@
   border-radius: 10px;
 }
 
+.arno-logo {
+  margin: 5%;
+  margin-bottom: 0;
+  margin-right: 25%;
+}
+
 .arno-text {
   margin-right: 25%;
   background-color: white;
@@ -35,6 +42,11 @@
 .user-text {
   margin-left: 25%;
   background-color:#F48937;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
 }
 
 .ArnoChat.active {
