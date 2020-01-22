@@ -8,7 +8,6 @@
   background: #ff4e00;
   transition: all ease 300ms;
   z-index: 100;
-  overflow-y: scroll;
 }
 
 .main-text {
@@ -28,6 +27,12 @@
   border-radius: 10px;
 }
 
+.chat-wrapper {
+  height: 90%;
+  position: fixed;
+  overflow-y: scroll;
+}
+
 .arno-logo {
   margin: 5%;
   margin-bottom: 0;
@@ -39,14 +44,43 @@
   background-color: white;
 }
 
+.radio {
+  max-width: 30px;
+  max-height: 30px;
+  flex: 1;
+}
+
+.input {
+  margin: 5%;
+  padding: 2%;
+  width: 80%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
+  flex: 3;
+}
+
+button {
+  min-width: 30px;
+  min-height: 30px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  background-image: url(./radio.svg);
+}
+
 .user-text {
   margin-left: 25%;
   background-color:#F48937;
 }
 
 .bottom {
+  padding: 2%;
+  min-width: 100%;
   position: absolute;
   bottom: 0;
+  flex-direction: row;
 }
 
 .ArnoChat.active {
