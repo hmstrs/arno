@@ -14,7 +14,9 @@
   justify-items: center;
 
   transition: all ease 300ms;
-  background: #1b1c1d;
+	background: #1b1c1d;
+
+	z-index: 101;
 }
 
 .btn-link {
@@ -54,8 +56,4 @@
 
 .NavBar .primary.active svg {
   transform: rotateZ(45deg);
-}
-
-.moved {
-  width: calc(67vw);
 }

@@ -3,13 +3,13 @@
   height: 100vh;
   position: fixed;
   right: 0;
-  top: 0%;
-	bottom: 0%;
+	bottom: 0;
   transform: translateX(33vw);
   background: #ff4e00;
   transition: all ease 300ms;
   z-index: 100;
 }
+
 .main-text {
   font-family: SF Pro Text;
   font-style: normal;
@@ -26,3 +26,21 @@
 .ArnoChat.active {
   transform: translateX(0);
 }
+
+@media screen and (max-width: 720px) {
+  .ArnoChat {
+		width: 100vw;
+		height: 80vh;
+		position: fixed;
+		transform: translateY(80vh);
+	}
+
+	.ArnoChat.active {
+		transform: translateY(0);
+	}
+
+	.moved {
+		width: 100%;
+	}
+}
+

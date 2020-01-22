@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "arno",
+  "name": "arno",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#222222",
-  "background_color": "#FF0099"
+  "theme_color": "#F96900",
+  "background_color": "#26282B"
 }
