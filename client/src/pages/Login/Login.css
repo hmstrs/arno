@@ -1,7 +1,13 @@
 .Login {
-	text-align: center;
   height: 100vh;
+  text-align: center;
 }
+
+@font-face {
+  font-family: SFfont;
+  src: url(../../assets/SFProDisplay-Medium.woff);
+}
+
 .form-group {
   background: #f96900;
   border-radius: 14.4407px;
@@ -28,7 +34,7 @@
 }
 
 .button-text {
-  font-family: SF Pro Text;
+  font-family: SFfont;
   font-style: normal;
   font-weight: bold;
   align-items: center;
@@ -52,9 +58,7 @@
   line-height: 21px;
   text-decoration-line: underline;
 }
-
 .text-register {
-
   font-size: 18px;
   line-height: 21px;
   text-decoration-line: none;

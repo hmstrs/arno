@@ -13,7 +13,12 @@ module.exports = {
       const user = await userModel.findById({ _id: id });
       return user;
     },
-    login: async (parent, { email, password }, { models: { userModel } }, info) => {
+    login: async (
+      parent,
+      { email, password },
+      { models: { userModel } },
+      info
+    ) => {
       const user = await userModel.findOne({ email });
 
       if (!user) {
@@ -35,10 +40,20 @@ module.exports = {
   },
 
   Mutation: {
-    createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
+    createUser: async (
+      parent,
+      { name, password, email },
+      { models: { userModel } },
+      info
+    ) => {
       let foundUser = await userModel.findOne({ email });
       if (!foundUser) {
-        foundUser = await userModel.create({ name, password, email, games: [] });
+        foundUser = await userModel.create({
+          name,
+          password,
+          email,
+          games: [],
+        });
       }
       return foundUser;
     },
@@ -50,15 +65,22 @@ module.exports = {
       const favourite = await userModel.findOneAndUpdate({ _id: id });
       return favourite;
     },
-    resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
-      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS);
-      await userModel.findOneAndUpdate(
-        { email },
-        { password: regeneratedPassword }
+    resetPassword: async (
+      parent,
+      { email },
+      { models: { userModel } },
+      info
+    ) => {
+      const regeneratedPassword = genPass(
+        process.env.PASSWORD_LENGTH,
+        process.env.CHARS
       );
-      await sendMail({ email, regeneratedPassword });
+      const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
+      await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
+      console.log(regeneratedPassword);
+
+      // await sendMail({ email, regeneratedPassword });
       return true;
     },
   },
-
 };

@@ -2,8 +2,22 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
+import validateRegister from '../../tools/validation/validateRegister';
+import getDiffpx from '../../tools/getDiffpx';
 
 import './Register.css';
+
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const POST_USER = gql`
+  mutation createUser($name: String!, $password: String!, $email: String!) {
+    createUser(name: $name, password: $password, email: $email) {
+      name
+      id
+    }
+  }
+`;
 
 const Register = props => {
   const formSize = {
@@ -13,6 +27,7 @@ const Register = props => {
   const RegisterSize = {
     height: 510
   };
+  const [errors, setErrors] = useState({});
   const [inputs, setInputs] = useState({
     name: '',
     email: '',
@@ -20,8 +35,24 @@ const Register = props => {
   });
   const onChange = e =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
+  const [postUser] = useMutation(POST_USER);
+  const onSubmit = () => {
+    const { errors, isValid } = validateRegister(inputs);
+    !isValid
+      ? setErrors(errors)
+      : postUser({
+          variables: inputs
+        })
+          .then(res => {
+            console.log('res', res);
+            props.history.push('/login');
+          })
+          .catch(err => {
+            console.log(err);
+            setErrors({ ...errors, password: err.message });
+          });
+  };
 
-  const onSubmit = () => alert('submit');
   return (
     <div className="Register">
       <Container fluid={true}>
@@ -44,6 +75,7 @@ const Register = props => {
                       }}
                       className="mx-auto"
                       type="text"
+                      error={errors.name}
                       name="name"
                       placeholder="Имя пользователя"
                       value={inputs.name}
@@ -52,8 +84,9 @@ const Register = props => {
 
                     <TextInput
                       style={{
-                        marginTop: '40px'
+                        marginTop: `${getDiffpx(errors.name, 40)}px`
                       }}
+                      error={errors.email}
                       className="mx-auto"
                       type="email"
                       name="email"
@@ -63,9 +96,10 @@ const Register = props => {
                     />
                     <TextInput
                       style={{
-                        marginTop: '40px'
+                        marginTop: `${getDiffpx(errors.email, 40)}px`
                       }}
                       className="mx-auto"
+                      error={errors.password}
                       type="password"
                       name="password"
                       placeholder="Пароль"
@@ -76,7 +110,7 @@ const Register = props => {
                 </Row>
                 <Row
                   style={{
-                    marginTop: '30px'
+                    marginTop: `${getDiffpx(errors.password, 30)}px`
                   }}
                 >
                   <Col>

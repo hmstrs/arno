@@ -2,7 +2,21 @@ import React, { useState } from 'react';
 import { Container, Col, Row, Button } from 'react-bootstrap';
 import NavLink from '../../components/NavLink/NavLink';
 import TextInput from '../../components/TextInput/TextInput';
+import validateLogin from '../../tools/validation/validateLogin';
+import getDiffpx from '../../tools/getDiffpx';
+
 import './Login.css';
+
+import { useLazyQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const LOGIN_USER = gql`
+  query login($password: String!, $email: String!) {
+    login(password: $password, email: $email) {
+      token
+    }
+  }
+`;
 
 const Login = props => {
   const formSize = {
@@ -12,17 +26,35 @@ const Login = props => {
   const LoginSize = {
     height: 400
   };
-  const inputWidth = 0.8 * formSize.width;
+  const [errors, setErrors] = useState({});
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
   });
+  const inputWidth = 0.8 * formSize.width;
+  const [loginUser] = useLazyQuery(LOGIN_USER, {
+    onCompleted: data => {
+      const { token } = data.login;
+      localStorage.setItem('token', token);
+      window.location.reload(false);
+    },
+    onError: err => {
+      console.log(err);
+      setErrors({ ...errors, password: err.message });
+    }
+  });
+
+  const loginUserHelper = async () => {
+    await loginUser({
+      variables: inputs
+    });
+  };
   const onChange = e =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
 
   const onSubmit = () => {
-    localStorage.setItem('token', 'test');
-    window.location.reload(false);
+    const { errors, isValid } = validateLogin(inputs);
+    !isValid ? setErrors(errors) : loginUserHelper();
   };
 
   return (
@@ -46,6 +78,7 @@ const Login = props => {
                         marginTop: '60px'
                       }}
                       className="mx-auto"
+                      error={errors.email}
                       type="email"
                       name="email"
                       placeholder="Эл. Почта"
@@ -54,9 +87,10 @@ const Login = props => {
                     />
                     <TextInput
                       style={{
-                        marginTop: '40px'
+                        marginTop: `${getDiffpx(errors.email, 40)}px`
                       }}
                       className="mx-auto"
+                      error={errors.password}
                       type="password"
                       name="password"
                       placeholder="Пароль"
@@ -68,7 +102,7 @@ const Login = props => {
                 <Row
                   style={{
                     width: `${inputWidth}px`,
-                    marginTop: '40px'
+                    marginTop: `${getDiffpx(errors.password, 40)}px`
                   }}
                   className="mx-auto"
                 >

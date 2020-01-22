@@ -11,7 +11,7 @@
 form .form-control:focus {
   border-color: #f96900;
   background: #f96900;
-  box-shadow: 0 0 0 0.2rem rgba(54, 53, 53, 0.459);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.329);
 }
 
 form .form-control::placeholder {
@@ -30,10 +30,11 @@ input:-webkit-autofill {
   -webkit-text-fill-color: white;
 }
 
-.form-text {
-  font-family: SF Pro Text;
+.form-text,
+input:-webkit-autofill::first-line {
+  font-family: SFfont;
   font-style: normal;
-  font-weight: bold;
+  /* font-weight: bold; */
   align-items: center;
   letter-spacing: -0.02em;
   text-indent: 21.661px;
@@ -41,4 +42,8 @@ input:-webkit-autofill {
   font-size: 14px;
   line-height: 17px;
   text-indent: 15px;
+}
+.is-invalid {
+  color: #8b0f0f;
+  font-size: 12px;
 }
