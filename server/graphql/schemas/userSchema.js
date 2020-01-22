@@ -1,11 +1,19 @@
 const { gql } = require('apollo-server-koa');
 
 module.exports = gql`
+  type Game {
+    win: Boolean!
+    song: ID!
+    tries: Int!
+    offered: [ID!]!
+    favourites: [ID!]!
+  }
+
   type User {
     id: ID!
     name: String!
     email: String!
-    games: [Object!]!
+    games: [Game!]!
   }
 
   type Token {
@@ -25,6 +33,6 @@ module.exports = gql`
     createUser(name: String!, password: String!, email: String!): User!
     addGame(id: ID!): User!
     addFavourites(id: ID!): User!
-    resetPassword(email: String!) : Boolean!
+    resetPassword(email: String!): Boolean!
   }
 `;
