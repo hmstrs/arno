@@ -3,7 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { AuthenticationError, UserInputError } = require('apollo-server-koa');
 const { genPass, sendMail } = require('../../common');
-const { validateLogin, validateRegister, validateRecover, validateId } = require('../../validation');
+const {
+  validateLogin,
+  validateRegister,
+  validateRecover,
+  validateId,
+} = require('../../validation');
 
 module.exports = {
   Query: {
@@ -17,7 +22,12 @@ module.exports = {
       const user = await userModel.findById({ _id: id });
       return user;
     },
-    login: async (parent, { email, password }, { models: { userModel } }, info) => {
+    login: async (
+      parent,
+      { email, password },
+      { models: { userModel } },
+      info
+    ) => {
       const { isValid, errors } = validateLogin({ email, password });
       if (!isValid) {
         throw new UserInputError('Login failed', { errors });
@@ -44,20 +54,16 @@ module.exports = {
   },
 
   Mutation: {
-<<<<<<< HEAD
-    createUser: async (parent, { name, password, email }, { models: { userModel } }, info) => {
-      const { isValid, errors } = validateRegister({ name, email, password });
-      if (!isValid) {
-        throw new UserInputError('Registration failed', { errors });
-      }
-=======
     createUser: async (
       parent,
       { name, password, email },
       { models: { userModel } },
       info
     ) => {
->>>>>>> master
+      const { isValid, errors } = validateRegister({ name, email, password });
+      if (!isValid) {
+        throw new UserInputError('Registration failed', { errors });
+      }
       let foundUser = await userModel.findOne({ email });
       if (!foundUser) {
         foundUser = await userModel.create({
@@ -83,27 +89,23 @@ module.exports = {
       const favourite = await userModel.findOneAndUpdate({ _id: id });
       return favourite;
     },
-<<<<<<< HEAD
-    resetPassword: async (parent, { email }, { models: { userModel } }, info) => {
-      const { isValid, errors } = validateRecover({ email });
-      if (!isValid) {
-        throw new UserInputError('Recover failed.', { errors });
-      }
-      const regeneratedPassword = genPass(process.env.PASSWORD_LENGTH, process.env.CHARS);
-      await userModel.findOneAndUpdate(
-        { email },
-        { password: regeneratedPassword }
-=======
     resetPassword: async (
       parent,
       { email },
       { models: { userModel } },
       info
     ) => {
+      const { isValid, errors } = validateRecover({ email });
+      if (!isValid) {
+        throw new UserInputError('Recover failed.', { errors });
+      }
       const regeneratedPassword = genPass(
         process.env.PASSWORD_LENGTH,
         process.env.CHARS
->>>>>>> master
+      );
+      await userModel.findOneAndUpdate(
+        { email },
+        { password: regeneratedPassword }
       );
       const hashedPassword = bcrypt.hashSync(regeneratedPassword, 12);
       await userModel.findOneAndUpdate({ email }, { password: hashedPassword });
