@@ -27,7 +27,8 @@ module.exports = {
       }
       const user = await userModel.findById({ _id: id })
         .populate('games.song')
-        .populate('games.offered');
+        .populate('games.offered')
+        .populate('favourites');
       return user;
     },
     login: async (
@@ -93,12 +94,12 @@ module.exports = {
         password,
         email,
         games: [],
+        favourites: []
       });
       return foundUser;
     },
     clearGameHistory: async (parent, args, { models: { userModel, songModel }, me }, info) => {
       const clearedUser = await userModel.findOneAndUpdate({ _id: me.id }, { $set: { games: [] } }, { new: true });
-      console.log(clearedUser);
       return clearedUser;
     },
     addGame: async (parent, { win, tries, song, offered }, { models: { userModel, songModel }, me }, info) => {
@@ -141,7 +142,8 @@ module.exports = {
         { new: true }
       )
         .populate('games.song')
-        .populate('games.offered');
+        .populate('games.offered')
+        .populate('favourites');
       // return user with dereferenced id
       return userWithNewGame;
     },
