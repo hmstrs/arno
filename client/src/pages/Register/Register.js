@@ -40,7 +40,7 @@ const Register = props => {
       variables: inputs
     })
       .then(res => {
-        console.log('res', res);
+        // console.log('res', res);
         props.history.push('/login');
       })
       .catch(err => {

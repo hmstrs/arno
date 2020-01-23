@@ -1,6 +1,18 @@
 .Login {
-  height: 100vh;
-  text-align: center;
+	height: 100vh;
+	width: 100%;
+	box-sizing: border-box;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	background: none !important;
 }
 
 @font-face {
@@ -10,27 +22,32 @@
 
 .form-group {
   background: #f96900;
-  border-radius: 14.4407px;
+  border-radius: 15px;
 }
 
 .button-login {
   background: #f96900;
-  box-shadow: 5.77627px 5.77627px 14.4407px rgba(0, 0, 0, 0.15),
-    -5.77627px -5.77627px 14.4407px rgba(255, 255, 255, 0.15);
-  border-radius: 14.4407px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.15),
+    -5px -5px 15px rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
 }
+
 .button-login:hover,
 .button-login:focus {
-  text-decoration-line: none;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15),
+    -1px -1px 4px rgba(255, 255, 255, 0.15);
 }
+
 .button-register {
   background: #26282b;
   box-shadow: -10px -10px 30px #33363a, 10px 10px 30px #191a1c;
   border-radius: 10px;
 }
+
 .button-register:hover,
 .button-register:focus {
-  text-decoration-line: none;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15),
+    -1px -1px 4px rgba(255, 255, 255, 0.15);
 }
 
 .button-text {
@@ -41,6 +58,10 @@
   text-align: center;
   letter-spacing: -0.02em;
   color: #fffffa !important;
+}
+
+.button-text:hover{
+	box-shadow: none;;
 }
 
 .text-no-acc {
@@ -54,10 +75,10 @@
 }
 
 .text-restore {
-  font-size: 17.3288px;
-  line-height: 21px;
+  font-size: 14px;
   text-decoration-line: underline;
 }
+
 .text-register {
   font-size: 18px;
   line-height: 21px;

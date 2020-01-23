@@ -1,21 +1,30 @@
 .Profile {
-  height: 100vh;
+	height: 100vh;
+	padding-top: 80px;
 }
+
 .header {
   height: 80px;
   width: 100%;
-  padding: 0 5%;
+	padding: 0 5%;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+
   display: flex;
-  align-items: center;
+	align-items: center;
 }
+
 .avatar {
   width: 173px;
   height: 173px;
 }
+
 .avatar-block {
-  margin-top: 70px;
   text-align: center;
 }
+
 .user-name {
   margin-top: 27px;
   font-size: 24px;
@@ -31,22 +40,17 @@
   letter-spacing: -0.02em;
   color: #ffffff;
 }
+
 .game-block {
   padding-top: 22px;
 }
-.card {
-  background: #26282b;
-  box-shadow: -10px -10px 30px #33363a, 10px 10px 30px #191a1c;
-  border-radius: 10px;
-  width: 295px;
-  height: 112px;
-  text-align: center;
-}
+
 .sub-text {
   font-size: 18px;
   line-height: 21px;
   text-align: center;
 }
+
 .history {
   font-size: 36px;
   line-height: 53px;

@@ -13,7 +13,7 @@ const GET_USER = gql`
     user(id: $id) {
       name
       games {
-        favourites
+				win
       }
     }
   }
@@ -33,7 +33,7 @@ const Profile = props => {
   };
   const prepareUser = obj => ({
     games: obj.length,
-    favourites: obj.reduce((acc, game) => acc + game.favourites.length, 0)
+    favourites: obj.reduce((acc, game) => acc, 0)
   });
   const { loading, error, data } = useQuery(GET_USER, {
     variables: {
@@ -49,7 +49,7 @@ const Profile = props => {
   }, [data]);
 
   useEffect(() => {
-    console.log(error);
+    error && console.log(error);
   }, [error]);
 
   const onSubmit = () => {
@@ -104,7 +104,7 @@ const Profile = props => {
     );
 
   return (
-    <div className="Profile">
+    <div className="Page Profile">
       <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
         <Col>
           <div className="text">Profile</div>

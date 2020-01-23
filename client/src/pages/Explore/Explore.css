@@ -1,21 +1,8 @@
-.Main {
-	width: 100vw;
-  transition: all ease 300ms;
-}
-
-.moved {
-  width: calc(67vw);
-}
-
-.Page {
-	height: 100vh;
-	padding-top: 80px;
-}
-
 .card {
   background: #26282b;
   box-shadow: -10px -10px 30px #33363a, 10px 10px 30px #191a1c;
   border-radius: 10px;
   width: 295px;
   height: 112px;
+  text-align: center;
 }

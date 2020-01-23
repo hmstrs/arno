@@ -67,3 +67,26 @@ header {
 	margin-top: 12vw;
 }
 
+@media screen and (max-width: 1080px) {
+	header {
+		padding: 0 10%;
+		justify-content: center;
+	}
+
+	header .btn, .hero img{
+		display: none;
+	}
+
+	.hero {
+		padding: 0 10%;
+		background: #f96900;
+	}
+
+	.hero h1 {
+		font-size: 36px;
+	}
+
+	.hero h4 {
+		font-size: 18px;
+	}
+}
