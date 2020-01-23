@@ -1,12 +1,26 @@
 const { gql } = require('apollo-server-koa');
 
 module.exports = gql`
+  input OfferedSongInput {
+    reference: String!
+    title: String!
+    artist: String!
+  }
+
+  type OfferedSongOutput {
+    _id: ID!
+    reference: String!,
+    artist: String!
+    title: String!
+    listened: Int!
+    favourited: Int!
+  }
+
   type Game {
     win: Boolean!
-    song: ID!
+    song: OfferedSongOutput!
     tries: Int!
-    offered: [ID!]!
-    favourites: [ID!]!
+    offered: [OfferedSongOutput!]!
   }
 
   type User {
@@ -14,6 +28,7 @@ module.exports = gql`
     name: String!
     email: String!
     games: [Game!]!
+    favourites: [String!]!
   }
   type Token {
     token: String!
@@ -30,7 +45,7 @@ module.exports = gql`
 
   extend type Mutation {
     createUser(name: String!, password: String!, email: String!): User!
-    addGame(id: ID!): User!
+    addGame(win: Boolean!, song: OfferedSongInput!, tries: Int!, offered: [OfferedSongInput!]!): User!
     addFavourites(id: ID!): User!
     resetPassword(email: String!): Boolean!
   }

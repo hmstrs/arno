@@ -10,6 +10,12 @@ const {
   validateId,
 } = require('../../validation');
 
+const findOrCreate = async (model, find, create) => {
+  let found = await model.findOne(find);
+  if (!found) found = await model.create(create);
+  return found;
+};
+
 module.exports = {
   Query: {
     user: async (parent, { id }, { models: { userModel }, me }, info) => {
@@ -88,12 +94,49 @@ module.exports = {
       });
       return foundUser;
     },
-    addGame: async (parent, { id }, { models: { userModel } }, info) => {
-      if (!validateId(id)) {
+    addGame: async (parent, { win, tries, song, offered }, { models: { userModel, songModel }, me }, info) => {
+      const { reference, title, artist } = song;
+      if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
       }
-      const game = await userModel.findOneAndUpdate({ _id: id });
-      return game;
+      // getting id of song
+      const foundSong = await findOrCreate(
+        songModel,
+        { reference },
+        {
+          reference,
+          artist,
+          title,
+          listened: 0,
+          favourited: 0
+        }
+      );
+      // getting id of songs
+      const foundOffered = await Promise.all(offered.map(async el => {
+        const { reference, title, artist } = el;
+        const foundSong = await findOrCreate(
+          songModel,
+          { reference },
+          {
+            reference,
+            artist,
+            title,
+            listened: 0,
+            favourited: 0
+          }
+        );
+        return foundSong;
+      }));
+      // add theese ids to user
+      const userWithNewGame = await userModel.findOneAndUpdate(
+        { _id: me.id },
+        { $push: { games: { win, tries, song: foundSong._id, offered: foundOffered.map(el => el._id) } } },
+        { new: true }
+      )
+        .populate('games.song')
+        .populate('games.offered');
+      // return user with dereferenced id
+      return userWithNewGame;
     },
     addFavourites: async (parent, { id }, { models: { userModel } }, info) => {
       if (!validateId(id)) {

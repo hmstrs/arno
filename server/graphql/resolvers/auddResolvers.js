@@ -8,6 +8,7 @@ module.exports = {
         method: 'POST',
         body: { lyrics },
       }).then(res => res.json());
+      // add song here if it doesn't exists
       return responce;
     },
     recogniseByHumming: async (parent, { humming }, context, info) => {
@@ -15,6 +16,7 @@ module.exports = {
         method: 'POST',
         body: { humming },
       }).then(res => res.json());
+      // add song here if it doesn't exists
       return responce;
     },
   },

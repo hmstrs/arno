@@ -4,6 +4,7 @@ const songSchema = new mongoose.Schema({
   reference: {
     type: String,
     required: true,
+    unique: true
   },
   title: {
     type: String,
@@ -23,4 +24,4 @@ const songSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('song', songSchema);
+module.exports = mongoose.model('Song', songSchema);

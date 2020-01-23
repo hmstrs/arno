@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
@@ -36,12 +35,12 @@ const userSchema = new mongoose.Schema({
       ref: 'Song',
       required: true,
     }],
-    favourites: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Song',
-      required: true,
-    }],
-  }]
+  }],
+  favourites: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Song',
+    required: true,
+  }],
 });
 
 userSchema.pre('save', function() {
@@ -49,4 +48,4 @@ userSchema.pre('save', function() {
   this.password = hashedPassword;
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('User', userSchema);
