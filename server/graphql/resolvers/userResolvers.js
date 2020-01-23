@@ -25,7 +25,9 @@ module.exports = {
       if (!validateId(id)) {
         throw new UserInputError('Bad Id');
       }
-      const user = await userModel.findById({ _id: id });
+      const user = await userModel.findById({ _id: id })
+        .populate('games.song')
+        .populate('games.offered');
       return user;
     },
     login: async (
