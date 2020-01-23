@@ -1,11 +1,7 @@
-import React from 'react';
-import spinner from '../../assets/spinner.gif';
+import React, { Fragment } from 'react';
+import { Spinner } from 'react-bootstrap';
 export default () => (
-  <div>
-    <img
-      src={spinner}
-      style={{ width: '50px', margin: 'auto', display: 'block' }}
-      alt="Loading"
-    />
-  </div>
+  <Fragment>
+    <Spinner style={{ margin: 'auto', display: 'block' }} animation="border" />
+  </Fragment>
 );
