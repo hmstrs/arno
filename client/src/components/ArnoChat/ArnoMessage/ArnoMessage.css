@@ -5,7 +5,7 @@
 }
 
 .main-text {
-  font-family: SF Pro Text;
+  font-family: Roboto;
   font-style: normal;
   /* font-weight: 600; */
   font-size: 16px;
@@ -24,4 +24,39 @@
 .arno-text {
   margin-right: 25%;
   background-color: white;
+}
+.offered-song {
+  font-size: 24px;
+  line-height: 28px;
+}
+.text {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: -0.02em;
+  text-indent: 10px;
+  color: #222;
+}
+.artist {
+  font-size: 12px;
+  line-height: 15px;
+}
+.btn-true,
+.btn-false {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.btn-true:focus,
+.btn-false:focus {
+  outline: 0 !important;
+}
+
+.btn-true {
+  color: #f96900;
+}
+.btn-false {
+  color: #222;
 }
