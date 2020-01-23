@@ -28,7 +28,7 @@ module.exports = gql`
     name: String!
     email: String!
     games: [Game!]!
-    favourites: [String!]!
+    favourites: [OfferedSongOutput!]!
   }
   type Token {
     token: String!
