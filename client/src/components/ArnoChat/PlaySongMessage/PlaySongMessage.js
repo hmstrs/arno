@@ -8,6 +8,7 @@ const PlaySongMessage = (id, deezer_id) => {
       <img src={Logo} alt="" className="arno-logo" />
       <div className="frame arno-text vvv">
         <iframe
+          title={id}
           scrolling="no"
           frameBorder="0"
           allowtransparency="true"

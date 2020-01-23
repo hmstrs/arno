@@ -9,6 +9,9 @@
   transition: all ease 300ms;
   z-index: 100;
 }
+.mobile-bottom {
+  margin-bottom: 70px;
+}
 
 .main-text {
   font-family: SF Pro Text;

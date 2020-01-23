@@ -5,7 +5,7 @@ import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
 import recordAudio from './RecordAudio';
 import './ArnoChat.css';
 
-const ArnoChat = ({ className, gameStarted }) => {
+const ArnoChat = ({ className, gameStarted, isMobile }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({
     message: '',
@@ -41,9 +41,23 @@ const ArnoChat = ({ className, gameStarted }) => {
     setMessages([...messages]);
   };
 
+  const makeBase64 = async () =>
+    new Promise(resolve => {
+      const reader = new FileReader();
+      reader.readAsDataURL(userAudio.audioBlob);
+      reader.onload = async () => {
+        const base64AudioMessage = reader.result.split(',')[1];
+        resolve(base64AudioMessage);
+      };
+    });
+
   const onSubmit = async () => {
     if (message.message) {
-      userAudio && userAudio.play();
+      if (userAudio) {
+        userAudio.play();
+        console.log(await makeBase64());
+      }
+
       messages.push(UserMessage(message.message, messages.length));
       setMessages([...messages]);
 
@@ -67,12 +81,12 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
   const onMouseDownHandler = async () => {
     await recorder.start();
-
     setMessage({ ...message, recording: true });
   };
-
   return (
-    <div className={'ArnoChat ' + className}>
+    <div
+      className={`ArnoChat ${isMobile() ? 'mobile-bottom' : ''} ${className}`}
+    >
       <div className="chat-wrapper">{messages}</div>
 
       <div className="bottom">
