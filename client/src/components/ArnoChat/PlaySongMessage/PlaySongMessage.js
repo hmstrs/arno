@@ -1,12 +1,17 @@
 import React from 'react';
 import './PlaySongMessage.css';
 import Logo from '../ArnoMessage/logo.svg';
-
-const PlaySongMessage = (id, deezer_id) => {
-  return (
+const SONG_NOT_EXIST_IN_DEEZER =
+  'К сожелению данный трек не выйдет проиграть, так как его нет в Deezer';
+const PlaySongMessage = (id, deezer_id) =>
+  deezer_id === 0 ? (
+    <div key={id}>
+      <p className="main-text arno-text">{SONG_NOT_EXIST_IN_DEEZER}</p>
+    </div>
+  ) : (
     <div key={id}>
       <img src={Logo} alt="" className="arno-logo" />
-      <div className="frame arno-text vvv">
+      <div className="frame arno-text mg-five">
         <iframe
           title={id}
           scrolling="no"
@@ -19,6 +24,5 @@ const PlaySongMessage = (id, deezer_id) => {
       </div>
     </div>
   );
-};
 
 export default PlaySongMessage;

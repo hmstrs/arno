@@ -1,21 +1,17 @@
 import React from 'react';
 import Logo from './logo.svg';
 import './ArnoMessage.css';
+const GREETING =
+  'Привет, я - Арно,\n отгадаю любую песню. \n Запиши мне аудио трека или отправь пару фраз песни.';
+const SOMETHING_WRONG = 'Хм, Попробуй еще раз';
 
 const ArnoMessage = (id, success, data, playSong, tryAgain) =>
-  id === 0 ? (
+  id === 0 || !success ? (
     <div key={id}>
       <img src={Logo} alt="" className="arno-logo" />
       <p className="main-text arno-text">
-        {
-          'Привет, я - Арно,\n отгадаю любую песню. \n Запиши мне аудио трека или отправь пару фраз.'
-        }
+        {id === 0 ? GREETING : SOMETHING_WRONG}
       </p>
-    </div>
-  ) : !success ? (
-    <div key={id}>
-      <img src={Logo} alt="" className="arno-logo" />
-      <p className="main-text arno-text">хм, что-то с апи</p>
     </div>
   ) : (
     <div key={id}>

@@ -9,10 +9,6 @@
   transition: all ease 300ms;
   z-index: 100;
 }
-.mobile-bottom {
-  margin-bottom: 70px;
-}
-
 .main-text {
   font-family: SF Pro Text;
   font-style: normal;
@@ -35,6 +31,7 @@
   width: 100%;
   position: fixed;
   overflow-y: scroll;
+  padding-bottom: 80px;
 }
 
 .arno-logo {
@@ -71,7 +68,15 @@
   background-color: transparent;
   border: none;
   outline: none;
-  background-image: url(./radio.svg);
+  background-image: url(../../assets/radio.svg);
+}
+
+.audio:focus {
+  border: none;
+  outline: none;
+}
+.audio:active {
+  filter: invert(100%);
 }
 
 .user-text {
@@ -94,11 +99,18 @@
 @media screen and (max-width: 720px) {
   .ArnoChat {
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
     position: fixed;
-    transform: translateY(80vh);
+    transform: translateY(100vh);
   }
+  .chat-wrapper {
+    padding-bottom: 80px;
+  }
+  .bottom {
+    background-color: #ff4e00;
 
+    padding-bottom: 80px;
+  }
   .ArnoChat.active {
     transform: translateY(0);
   }

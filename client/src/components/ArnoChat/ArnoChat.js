@@ -2,17 +2,132 @@ import React, { useState, useEffect } from 'react';
 import ArnoMessage from './ArnoMessage/ArnoMessage';
 import UserMessage from './UserMessage/UserMessage';
 import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
-import recordAudio from './RecordAudio';
+import recordAudio from './recordAudio';
 import './ArnoChat.css';
+import { useLazyQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-const ArnoChat = ({ className, gameStarted, isMobile }) => {
+const defaultSong = {
+  offeredSong: '',
+  artist: ''
+};
+
+const FETCH_AUDIO = gql`
+  query recogniseByBase64($audio: String!) {
+    recogniseByBase64(audio: $audio) {
+      artist
+      title
+    }
+  }
+`;
+
+const GET_DEEZER_ID = gql`
+  query getTrackID($artist: String!, $track: String!) {
+    getTrackID(artist: $artist, track: $track)
+  }
+`;
+
+const FETCH_LYRICS = gql`
+  query recogniseByLyrics($lyrics: String!) {
+    recogniseByLyrics(lyrics: $lyrics) {
+      artist
+      title
+    }
+  }
+`;
+
+const ArnoChat = ({ className, gameStarted }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({
     message: '',
     recording: false
   });
   const [recorder, setRecoder] = useState(null);
-  const [userAudio, setUserAudio] = useState(null);
+
+  const [songInfo, setSongInfo] = useState(defaultSong);
+  const [deezerID, setDeezerID] = useState(0);
+  const [fetchAudio] = useLazyQuery(FETCH_AUDIO, {
+    onCompleted: data => {
+      const { title, artist } = data.recogniseByBase64;
+      setSongInfo({ offeredSong: title, artist });
+    },
+    onError: err => {
+      console.log(err);
+
+      if (err.graphQLErrors.length > 0) {
+        const { code, errors } = err.graphQLErrors[0].extensions;
+        if (code === 'BAD_USER_INPUT') {
+          messages.push(ArnoMessage(messages.length, false));
+          setMessages([...messages]);
+        }
+      } else console.log(err);
+    }
+  });
+  const [fetchLyrics] = useLazyQuery(FETCH_LYRICS, {
+    onCompleted: data => {
+      const { title, artist } = data.recogniseByLyrics;
+      setSongInfo({ offeredSong: title, artist });
+    },
+    onError: err => {
+      const { graphQLErrors } = err;
+      console.dir({ graphQLErrors });
+
+      if (err.graphQLErrors.length > 0) {
+        const { code, errors } = err.graphQLErrors[0].extensions;
+        if (code === 'BAD_USER_INPUT') {
+          messages.push(ArnoMessage(messages.length, false));
+          setMessages([...messages]);
+        }
+      } else console.log(err);
+    }
+  });
+  const [getDeezerID] = useLazyQuery(GET_DEEZER_ID, {
+    onCompleted: data => {
+      const id = data.getTrackID ? data.getTrackID : 0;
+
+      messages.push(PlaySongMessage(messages.length, id));
+
+      setMessages([...messages]);
+      setDeezerID({ id });
+    },
+    onError: err => {
+      const { graphQLErrors } = err;
+      console.dir({ graphQLErrors });
+
+      if (err.graphQLErrors.length > 0) {
+        const { code, errors } = err.graphQLErrors[0].extensions;
+        if (code === 'BAD_USER_INPUT') {
+          messages.push(ArnoMessage(messages.length, false));
+          setMessages([...messages]);
+        }
+      } else console.log(err);
+    }
+  });
+
+  const fetchAudioHelper = async base64 => {
+    await fetchAudio({
+      variables: {
+        audio: base64
+      }
+    });
+  };
+  const fetchLyricsHelper = async lyrics => {
+    await fetchLyrics({
+      variables: {
+        lyrics
+      }
+    });
+  };
+  const pushMessageWithSong = async () => {
+    messages.push(ArnoMessage(messages.length, true, songInfo, playSong));
+    setMessages([...messages]);
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(songInfo) !== JSON.stringify(defaultSong)) {
+      pushMessageWithSong();
+    }
+  }, [songInfo]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -21,50 +136,27 @@ const ArnoChat = ({ className, gameStarted, isMobile }) => {
     } else {
       setRecoder(null);
       setMessages([]);
-      setUserAudio(null);
+      setSongInfo(defaultSong);
+      setDeezerID(0);
     }
   }, [gameStarted]);
-  const simulateQueryHelper = async () => ({
-    offeredSong: 'Sugar',
-    artist: 'Maroon 5',
-    deezer_id: '100004590'
-  });
 
-  const playSong = () => {
-    messages.push(PlaySongMessage(messages.length, 100004590));
-
-    setMessages([...messages]);
-  };
-  const simulateQuery = async () => {
-    const data = await simulateQueryHelper();
-    messages.push(ArnoMessage(messages.length, true, data, playSong));
-    setMessages([...messages]);
-  };
-
-  const makeBase64 = async () =>
-    new Promise(resolve => {
-      const reader = new FileReader();
-      reader.readAsDataURL(userAudio.audioBlob);
-      reader.onload = async () => {
-        const base64AudioMessage = reader.result.split(',')[1];
-        resolve(base64AudioMessage);
-      };
+  const playSong = async () => {
+    await getDeezerID({
+      variables: {
+        artist: songInfo.artist,
+        track: songInfo.offeredSong
+      }
     });
+  };
 
   const onSubmit = async () => {
     if (message.message) {
-      if (userAudio) {
-        userAudio.play();
-        console.log(await makeBase64());
-      }
-
       messages.push(UserMessage(message.message, messages.length));
       setMessages([...messages]);
-
+      await fetchLyricsHelper(message.message);
       setMessage({ ...message, message: '' });
-      simulateQuery();
     }
-    // send async request here
   };
 
   const onChange = e => {
@@ -76,7 +168,8 @@ const ArnoChat = ({ className, gameStarted, isMobile }) => {
   const onMouseUpHandler = async () => {
     if (recorder && message.recording) {
       setMessage({ ...message, recording: false });
-      setUserAudio(await recorder.stop());
+      const audio = await recorder.stop();
+      await fetchAudioHelper(audio.base64);
     }
   };
   const onMouseDownHandler = async () => {
@@ -84,9 +177,7 @@ const ArnoChat = ({ className, gameStarted, isMobile }) => {
     setMessage({ ...message, recording: true });
   };
   return (
-    <div
-      className={`ArnoChat ${isMobile() ? 'mobile-bottom' : ''} ${className}`}
-    >
+    <div className={`ArnoChat ${className}`}>
       <div className="chat-wrapper">{messages}</div>
 
       <div className="bottom">
