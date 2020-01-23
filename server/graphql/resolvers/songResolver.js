@@ -2,6 +2,15 @@
 const { UserInputError } = require('apollo-server-koa');
 
 module.exports = {
+
+  Query: {
+    getTopSongs: async (parent, args, { models: { songModel, userModel } }, info) => {
+      const topTenSongs = await songModel.find({}).sort({ listened: -1 }).limit(10);
+      console.log(topTenSongs);
+      return topTenSongs;
+    }
+  },
+
   Mutation: {
     addListened: async (parent, { reference }, { models: { songModel } }, info) => {
       const updatedCounter = songModel.findOneAndUpdate(

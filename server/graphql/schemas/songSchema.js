@@ -19,7 +19,7 @@ module.exports = gql`
   }
 
   extend type Query {
-    add(id: ID!): User!
+    getTopSongs: [Song!]!
   }
 
   extend type Mutation {
