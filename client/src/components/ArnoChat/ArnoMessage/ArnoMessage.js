@@ -20,7 +20,7 @@ const ArnoMessage = (id, success, data, playSong, tryAgain) =>
         Я думаю это:
         <div className="text offered-song">{data.offeredSong}</div>
         <div className="text artist">by {data.artist}</div>
-        <div className="text-center">
+        <div className="h text-center">
           <div className="pb-3 pt-3">
             <button className="btn-true float-left" onClick={playSong}>
               Да, так и есть

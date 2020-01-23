@@ -4,29 +4,12 @@
   margin-right: 25%;
 }
 
-.main-text {
-  font-family: Roboto;
-  font-style: normal;
-  /* font-weight: 600; */
-  font-size: 16px;
-  /* line-height: 78px; */
-  align-items: left;
-  /* text-align: center; */
-  letter-spacing: -0.02em;
-  color: #222;
-
-  max-width: 75%;
-  margin: 5%;
-  padding: 5%;
-  border-radius: 10px;
-}
-
 .arno-text {
   margin-right: 25%;
   background-color: white;
 }
 .offered-song {
-  font-size: 24px;
+  font-size: 22px;
   line-height: 28px;
 }
 .text {
@@ -38,7 +21,7 @@
   color: #222;
 }
 .artist {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 15px;
 }
 .btn-true,

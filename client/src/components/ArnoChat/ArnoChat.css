@@ -9,14 +9,14 @@
   transition: all ease 300ms;
   z-index: 100;
 }
+::-webkit-scrollbar {
+  overflow: visible;
+}
 .main-text {
-  font-family: SF Pro Text;
+  font-family: SFfont;
   font-style: normal;
-  /* font-weight: 600; */
   font-size: 16px;
-  /* line-height: 78px; */
   align-items: left;
-  /* text-align: center; */
   letter-spacing: -0.02em;
   color: #222;
 
@@ -50,15 +50,25 @@
   max-height: 30px;
   flex: 1;
 }
+.input:-webkit-autofill::first-line {
+  font-family: SFfont;
+  font-style: normal;
+  letter-spacing: -0.02em;
+  color: #222;
+}
 
 .input {
+  font-family: SFfont;
+  font-style: normal;
+  letter-spacing: -0.02em;
+  color: #222;
   margin: 5%;
   padding: 2%;
   width: 80%;
   background-color: transparent;
   border: none;
   outline: none;
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid #222;
   flex: 3;
 }
 
@@ -117,5 +127,17 @@
 
   .moved {
     width: 100%;
+  }
+}
+@media (max-width: 950px) and (min-width: 720px) {
+  .input {
+    width: 70%;
+  }
+  .h {
+    padding-bottom: 30px;
+  }
+  .btn-true,
+  .btn-false {
+    width: 50%;
   }
 }

@@ -1,21 +1,4 @@
-.main-text {
-  font-family: SF Pro Text;
-  font-style: normal;
-  /* font-weight: 600; */
-  font-size: 16px;
-  /* line-height: 78px; */
-  align-items: left;
-  /* text-align: center; */
-  letter-spacing: -0.02em;
-  color: #222;
-
-  max-width: 75%;
-  margin: 5%;
-  padding: 5%;
-  border-radius: 10px;
-}
-
 .user-text {
   margin-left: 25%;
-  background-color:#F48937;
+  background-color: #f48937;
 }
