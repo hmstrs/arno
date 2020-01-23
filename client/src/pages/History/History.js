@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Col, Spinner, Button } from 'react-bootstrap';
 import jwt_decode from 'jwt-decode';
 import gql from "graphql-tag";
@@ -7,6 +7,8 @@ import gql from "graphql-tag";
 import { FaTrophy } from 'react-icons/fa';
 
 import clear from '../../assets/icon-clear.svg';
+
+import './History.css'
 
 const GET_GAMES = gql`
 	query user($id: ID!) {
@@ -23,6 +25,13 @@ const GET_GAMES = gql`
 		}
 	}
 `;
+
+const CLEAR_HISTORY = gql`
+  mutation {
+		clearGameHistory {
+			name
+  	}
+	}`;
 
 const History = () => {
 	const [games, setGames] = useState([])
@@ -47,18 +56,22 @@ const History = () => {
     error && console.log(error);
   }, [error]);
 
-	const onSubmit = () => alert('clear history');
+	const [clearHistory] = useMutation(CLEAR_HISTORY);
+	const onSubmit = () => {
+		clearHistory()
+    window.location.reload(false);
+	}
 
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
 		) : (
 			games.map(({win, song: { title, artist }, tries}) => (
-				<div className="card" >
-					<div>
+				<div className="card card-history" key={Math.random()}>
+					<div className="win">
 						<FaTrophy style={{
 							color: win ? '#f96900' : '#fff',
-							fontSize: '64px'
+							fontSize: '56px'
 						}}/> {tries}
 					</div>
 					<div>{title}<br/>by {artist}</div>

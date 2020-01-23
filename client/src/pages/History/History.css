@@ -1,0 +1,30 @@
+.History {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card.card-history {
+	margin-bottom: 25px;
+	padding: 0 20px;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card.card-history div{
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	font-size: 18px;
+}
+
+.card.card-history .win{
+	font-weight: bold;
+	text-align: center;
+	margin-right: 20px;
+}

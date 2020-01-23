@@ -31,7 +31,8 @@ const AllUsers = () => {
   useEffect(() => {
     if (data) {
 			data.user.games.map(({favourites}) => setSongs([...songs, favourites]))
-    }
+		}
+		//eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
