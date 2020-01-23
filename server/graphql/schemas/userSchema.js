@@ -15,7 +15,6 @@ module.exports = gql`
     email: String!
     games: [Game!]!
   }
-
   type Token {
     token: String!
   }
