@@ -94,6 +94,11 @@ module.exports = {
       });
       return foundUser;
     },
+    clearGameHistory: async (parent, args, { models: { userModel, songModel }, me }, info) => {
+      const clearedUser = await userModel.findOneAndUpdate({ _id: me.id }, { $set: { games: [] } }, { new: true });
+      console.log(clearedUser);
+      return clearedUser;
+    },
     addGame: async (parent, { win, tries, song, offered }, { models: { userModel, songModel }, me }, info) => {
       const { reference, title, artist } = song;
       if (!validateId(me.id)) {

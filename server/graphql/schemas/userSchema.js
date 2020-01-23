@@ -48,5 +48,6 @@ module.exports = gql`
     addGame(win: Boolean!, song: OfferedSongInput!, tries: Int!, offered: [OfferedSongInput!]!): User!
     addFavourites(id: ID!): User!
     resetPassword(email: String!): Boolean!
+    clearGameHistory: User!
   }
 `;
