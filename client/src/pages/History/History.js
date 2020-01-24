@@ -66,8 +66,14 @@ const History = () => {
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
-		) : (
-			games.map(({win, song: { title, artist }, tries}) => (
+		) : ( !games.length ? (
+      <div>
+        <p className="fav">
+          It seems like you still haven't played with our bot :( <br />Try it now :)
+        </p>
+      </div>
+    ) : (
+      games.map(({win, song: { title, artist }, tries}) => (
 				<div className="card card-history" key={Math.random()}>
 					<div className="win">
 						<FaTrophy style={{
@@ -77,8 +83,10 @@ const History = () => {
 					</div>
 					<div>{title}<br/>by {artist}</div>
 				</div>
-			))
-		);
+      ))
+    )
+  );
+			
 
   return (
     <div className="Page History">
