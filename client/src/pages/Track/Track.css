@@ -23,5 +23,38 @@
 }
 
 .music {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 2%;
   margin: 3%;
+  max-height: 50%;
+}
+
+.counter {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.trackName {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.artistName {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.track-info {
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
 }
