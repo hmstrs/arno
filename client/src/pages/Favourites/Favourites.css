@@ -35,3 +35,21 @@
 	font-size: 22px;
 	margin-right: 20px;
 }
+
+.fav {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+a {
+  color: #f96900;
+}
+
+a:hover {
+  color: #f96900;
+}
