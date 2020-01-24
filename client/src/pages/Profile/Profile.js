@@ -15,6 +15,9 @@ const GET_USER = gql`
       games {
 				win
       }
+			favourites {
+				title
+			}
     }
   }
 `;
@@ -31,9 +34,9 @@ const Profile = props => {
     const { id } = jwt_decode(token);
     return id;
   };
-  const prepareUser = obj => ({
-    games: obj.length,
-    favourites: obj.reduce((acc, game) => acc, 0)
+  const prepareUser = (game, favourites) => ({
+    games: game.length,
+    favourites: favourites.length,
   });
   const { loading, error, data } = useQuery(GET_USER, {
     variables: {
@@ -43,8 +46,8 @@ const Profile = props => {
 
   useEffect(() => {
     if (data) {
-      const { name, games } = data.user;
-      setUser({ name, ...prepareUser(games) });
+      const { name, games, favourites } = data.user;
+      setUser({ name, ...prepareUser(games, favourites) });
     }
   }, [data]);
 

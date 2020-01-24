@@ -1,36 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery } from "@apollo/react-hooks";
 import { Col, Spinner } from 'react-bootstrap';
-import jwt_decode from 'jwt-decode';
 import gql from "graphql-tag";
 
 import './Explore.css';
 
-const GET_GAMES = gql`
-	query song($id: ID!) {
-		user(id: $id) {
-			name
-			games {
-				song
-			}
+const GET_TOP_SONGS = gql`
+	query {
+		getTopSongs{
+			id
+			title
+			artist
 		}
 	}
 `;
 
 const Explore = () => {
-	const getID = () => {
-    const token = localStorage.getItem('token');
-    const { id } = jwt_decode(token);
-    return id;
-	};
+	const [songs, setSongs] = useState([])
 
-	const { loading, error, data } = useQuery(GET_GAMES, {
-    variables: {id: getID()},
-	});
+	const { loading, error, data } = useQuery(GET_TOP_SONGS);
 
   useEffect(() => {
     if (data) {
-      // const { games } = data.user;
+			setSongs(data.getTopSongs);
     }
   }, [data]);
 
@@ -41,7 +33,15 @@ const Explore = () => {
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
-    ) : ('explore');
+    ) : (songs.map(({ title, artist }, i) => (
+			<div className="card card-explore" key={Math.random()}>
+				<div className="position">
+					{i+1}
+				</div>
+				<div>{title}<br/>by {artist}</div>
+			</div>
+		))
+		)
 
   return (
     <div className="Page Explore">

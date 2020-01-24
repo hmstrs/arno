@@ -1,16 +1,33 @@
 import React, { useEffect, useState} from 'react';
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { Col, Spinner } from 'react-bootstrap';
 import jwt_decode from 'jwt-decode';
 import gql from "graphql-tag";
 
+import {
+	FaTrash
+} from 'react-icons/fa'
+
+import './Favourites.css'
+
 const GET_GAMES = gql`
 	query song($id: ID!) {
 		user(id: $id) {
-			name
-			games {
-        favourites
-      }
+			favourites {
+				_id
+				title
+				artist
+			}
+		}
+	}
+`;
+
+const DELETE_FAVOURITE = gql`
+	mutation {
+		deleteFavourites(id: "5e29ae229d95a6c7927da1db") {
+			favourites {
+				title
+			}
 		}
 	}
 `;
@@ -30,20 +47,36 @@ const AllUsers = () => {
 
   useEffect(() => {
     if (data) {
-			data.user.games.map(({favourites}) => setSongs([...songs, favourites]))
+			setSongs(data.user.favourites)
 		}
 		//eslint-disable-next-line
   }, [data]);
 
   useEffect(() => {
     error && console.log(error);
-  }, [error]);
+	}, [error]);
+
+	const [deleteFavourite] = useMutation(DELETE_FAVOURITE)
+	const onSubmit = id => {
+		deleteFavourite({id: id})
+			.then(() => window.location.reload(false))
+			.catch(e => console.log(e))
+  };
 
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
     ) : (
-			songs.map((x) => x)
+			songs.map(({title, artist, _id}) => (
+				<div className="card card-favourite" key={Math.random()}>
+					<div className="delete">
+						<button onClick={() => onSubmit(_id)}>
+							<FaTrash />
+						</button>
+					</div>
+					<div>{title}<br/>by {artist}</div>
+				</div>
+			))
 		);
 
   return (

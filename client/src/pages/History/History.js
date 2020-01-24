@@ -59,7 +59,8 @@ const History = () => {
 	const [clearHistory] = useMutation(CLEAR_HISTORY);
 	const onSubmit = () => {
 		clearHistory()
-    window.location.reload(false);
+			.then(() => window.location.reload(false))
+			.catch(e => console.log(e))
 	}
 
   const MainContent =
@@ -72,7 +73,7 @@ const History = () => {
 						<FaTrophy style={{
 							color: win ? '#f96900' : '#fff',
 							fontSize: '56px'
-						}}/> {tries}
+						}}/> tries: {tries}
 					</div>
 					<div>{title}<br/>by {artist}</div>
 				</div>
