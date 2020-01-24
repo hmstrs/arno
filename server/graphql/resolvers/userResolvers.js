@@ -161,6 +161,20 @@ module.exports = {
         .populate('favourites');
       return favourite;
     },
+    deleteFavourites: async (parent, { id }, { models: { userModel }, me }, info) => {
+      if (!validateId(me.id)) {
+        throw new UserInputError('Bad Id');
+      }
+      const deletedFavourite = await userModel.findOneAndUpdate(
+        { _id: me.id },
+        { $pull: { favourites: id } },
+        { new: true }
+      )
+        .populate('games.song')
+        .populate('games.offered')
+        .populate('favourites');
+      return deletedFavourite;
+    },
     resetPassword: async (
       parent,
       { email },

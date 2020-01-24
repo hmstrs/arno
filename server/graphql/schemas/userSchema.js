@@ -47,6 +47,7 @@ module.exports = gql`
     createUser(name: String!, password: String!, email: String!): User!
     addGame(win: Boolean!, song: OfferedSongInput!, tries: Int!, offered: [OfferedSongInput!]!): User!
     addFavourites(id: ID!): User!
+    deleteFavourites(id: ID!): User!
     resetPassword(email: String!): Boolean!
     clearGameHistory: User!
   }
