@@ -1,8 +1,31 @@
-.card {
-  background: #26282b;
-  box-shadow: -10px -10px 30px #33363a, 10px 10px 30px #191a1c;
-  border-radius: 10px;
-  width: 295px;
-  height: 112px;
-  text-align: center;
+.Explore {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card.card-explore {
+	margin-bottom: 25px;
+	padding: 0 20px;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card.card-explore div{
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	font-size: 18px;
+}
+
+.card.card-explore .position{
+	font-size: 36px;
+	font-weight: bold;
+	text-align: center;
+	margin-right: 20px;
 }
