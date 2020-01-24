@@ -147,11 +147,18 @@ module.exports = {
       // return user with dereferenced id
       return userWithNewGame;
     },
-    addFavourites: async (parent, { id }, { models: { userModel } }, info) => {
-      if (!validateId(id)) {
+    addFavourites: async (parent, { id }, { models: { userModel }, me }, info) => {
+      if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
       }
-      const favourite = await userModel.findOneAndUpdate({ _id: id });
+      const favourite = await userModel.findOneAndUpdate(
+        { _id: me.id },
+        { $push: { favourites: id } },
+        { new: true }
+      )
+        .populate('games.song')
+        .populate('games.offered')
+        .populate('favourites');
       return favourite;
     },
     resetPassword: async (
