@@ -1,1 +1,37 @@
+.Favourites {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
 
+.card.card-favourite {
+	margin-bottom: 25px;
+	padding: 0 20px;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card.card-favourite div{
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	font-size: 18px;
+}
+
+.card.card-favourite .delete button {
+	height: 45px;
+	width: 45px;
+	border: none;
+	color: #fff;
+	background: #1C1D1E;
+  box-shadow: 5px 5px 15px #101111,
+    -5px -5px 15px #262729;
+  border-radius: 5px;
+	font-size: 22px;
+	margin-right: 20px;
+}
