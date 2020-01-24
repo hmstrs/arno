@@ -8,10 +8,6 @@ module.exports = {
       const topTenSongs = await songModel.find({}).sort({ listened: -1 }).limit(10);
       console.log(topTenSongs);
       return topTenSongs;
-    },
-    getSong: async (parent, { id }, { models: { songModel, userModel } }, info) => {
-      const song = await songModel.findOne({ _id: id });
-      return song;
     }
   },
 
@@ -46,5 +42,9 @@ module.exports = {
       }
       return foundSong;
     },
+    getSong: async (parent, { id }, { models: { songModel, userModel } }, info) => {
+      const song = await songModel.findOneAndUpdate({ _id: id }, { $inc: { listened: 1 } });
+      return song;
+    }
   },
 };

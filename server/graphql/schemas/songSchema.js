@@ -20,12 +20,12 @@ module.exports = gql`
 
   extend type Query {
     getTopSongs: [Song!]!
-    getSong(id: ID!): Song!
   }
 
   extend type Mutation {
     addListened(reference: String!): Listened!
     addFavorited(reference: String!): Favourited!
     addSong(reference: String!, title: String!, artist: String): Song!
+    getSong(id: ID!): Song!
   }
 `;
