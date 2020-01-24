@@ -43,7 +43,7 @@ module.exports = {
       return foundSong;
     },
     getSong: async (parent, { id }, { models: { songModel, userModel } }, info) => {
-      const song = await songModel.findOneAndUpdate({ _id: id }, { $inc: { listened: 1 } });
+      const song = await songModel.findOneAndUpdate({ _id: id }, { $inc: { listened: 1 } }, { new: true });
       return song;
     }
   },
