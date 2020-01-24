@@ -18,7 +18,7 @@ const GET_SONG = gql`
  }
 `;
 
-const createId = id => `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=300&height=300&color=ff0000&layout=dark&size=medium&type=playlist&id=${id}&app_id=1`;
+const createId = id => `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=400&height=400&color=ff0000&layout=dark&size=medium&type=playlist&id=${id}&app_id=1`;
 
 const createButtons = (listened, favourited) => {
   return (
@@ -60,7 +60,7 @@ const Track = () => {
     width: "400",
     height: "400"
   };
-
+  
   return loading || error ? (
     <Spinner animation="border" />
   ) : 
@@ -70,7 +70,7 @@ const Track = () => {
         <p className="trackName">{song.title}</p>
         <p className="artistName">{song.artist}</p>
       </div>
-      { createFrame(frameProperties, createId(song.reference)) }
+      { createFrame(frameProperties, createId(parseInt(song.reference))) }
       { createButtons(song.listened, song.favourited) }
     </div>  
   );
