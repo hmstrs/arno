@@ -13,6 +13,7 @@
   flex-direction: row;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 5%;
 }
 
 .frame {
@@ -57,4 +58,8 @@
   margin-left: auto;
   margin-right: auto;
   text-align:center;
+}
+
+.idk {
+  padding-top: 3%;
 }
