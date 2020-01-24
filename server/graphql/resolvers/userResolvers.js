@@ -153,7 +153,7 @@ module.exports = {
       }
       const favourite = await userModel.findOneAndUpdate(
         { _id: me.id },
-        { $push: { favourites: id } },
+        { $addToSet: { favourites: id } },
         { new: true }
       )
         .populate('games.song')
