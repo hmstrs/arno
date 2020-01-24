@@ -71,7 +71,12 @@
   border-bottom: 2px solid #222;
   flex: 3;
 }
-
+.width-step-typing {
+  width: 90%;
+}
+.width-step-audio {
+  opacity: 0;
+}
 .audio {
   min-width: 30px;
   min-height: 30px;

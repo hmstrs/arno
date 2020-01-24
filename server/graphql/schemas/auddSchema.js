@@ -7,8 +7,8 @@ module.exports = gql`
   }
 
   extend type Query {
-    recogniseByBase64(audio: String!): Response!
-    recogniseByLyrics(lyrics: String!): Response!
+    recogniseByBase64(audio: String!): [Response!]!
+    recogniseByLyrics(lyrics: String!): [Response!]!
     getTrackID(artist: String!, track: String!): Int!
   }
 `;

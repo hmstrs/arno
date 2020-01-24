@@ -3,8 +3,8 @@ import './PlaySongMessage.css';
 import Logo from '../ArnoMessage/logo.svg';
 const SONG_NOT_EXIST_IN_DEEZER =
   'К сожелению данный трек не выйдет проиграть, так как его нет в Deezer';
-const PlaySongMessage = (id, deezer_id) =>
-  deezer_id === 0 ? (
+const PlaySongMessage = (id, deezer_id) => {
+  return deezer_id === 0 ? (
     <div key={id}>
       <p className="main-text arno-text">{SONG_NOT_EXIST_IN_DEEZER}</p>
     </div>
@@ -24,5 +24,6 @@ const PlaySongMessage = (id, deezer_id) =>
       </div>
     </div>
   );
+};
 
 export default PlaySongMessage;
