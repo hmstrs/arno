@@ -10,21 +10,12 @@ module.exports = gql`
     favourited: Int!
   }
 
-  type Listened {
-    listened: Int!
-  }
-
-  type Favourited {
-    favourited: Int!
-  }
-
   extend type Query {
     getTopSongs: [Song!]!
+    checkInFavourites(id: ID!): Boolean!
   }
 
   extend type Mutation {
-    addListened(reference: String!): Listened!
-    addFavorited(reference: String!): Favourited!
     addSong(reference: String!, title: String!, artist: String): Song!
     getSong(id: ID!): Song!
   }

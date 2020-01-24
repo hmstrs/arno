@@ -18,7 +18,6 @@ import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import RestorePassword from './pages/RestorePassword/RestorePassword';
 import './App.css';
-import { dedentBlockStringValue } from 'graphql/language/blockString';
 
 const token = localStorage.getItem('token');
 const client = new ApolloClient({

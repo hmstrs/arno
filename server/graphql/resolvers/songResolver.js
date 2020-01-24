@@ -8,6 +8,12 @@ module.exports = {
       const topTenSongs = await songModel.find({}).sort({ listened: -1 }).limit(10);
       console.log(topTenSongs);
       return topTenSongs;
+    },
+    checkInFavourites: async (parent, { id }, { models: { songModel, userModel }, me }, info) => {
+      const favourite = await userModel.findOne({ _id: me.id, favourites: { $in: [id] } });
+      console.log(favourite);
+      if (favourite) return true;
+      return false;
     }
   },
 

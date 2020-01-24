@@ -147,10 +147,11 @@ module.exports = {
       // return user with dereferenced id
       return userWithNewGame;
     },
-    addFavourites: async (parent, { id }, { models: { userModel }, me }, info) => {
+    addFavourites: async (parent, { id }, { models: { userModel, songModel }, me }, info) => {
       if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
       }
+      await songModel.findOneAndUpdate({ _id: id }, { $inc: { favourited: 1 } });
       const favourite = await userModel.findOneAndUpdate(
         { _id: me.id },
         { $addToSet: { favourites: id } },

@@ -9,25 +9,33 @@ import './Track.css';
 const GET_SONG = gql`
  query song($id: ID!) {
   getSong(id: $id) {
-   reference
-   title
-   artist
-   listened
-   favourited
+    id
+    reference
+    title
+    artist
+    listened
+    favourited
   }
+ }
+`;
+
+const ADD_TO_FAVOURITE = gql`
+  mutation {
+    addFavourites(id: $id) {
+      favourited
+    }
+  }
+`;
+
+// return just bool
+const CHECK_FAVOURITE = gql`
+  query checkSong($id: ID!) {
+    checkInFavourites(id: $id) 
  }
 `;
 
 const createId = id => `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=400&height=400&color=ff0000&layout=dark&size=medium&type=playlist&id=${id}&app_id=1`;
 
-const createButtons = (listened, favourited) => {
-  return (
-    <div className="buttons">
-      <p className="card music">listened<br/><p className="counter">{listened}</p></p>
-      <p className="card music">favourited<br/><p className="counter">{favourited}</p></p>
-    </div>
-  );
-};
 
 const createFrame = (props, src) => {
   return (
@@ -36,11 +44,30 @@ const createFrame = (props, src) => {
 };
 
 const Track = () => {
+
+  const [song, setSong] = useState({});
+
+  const addToUserFavourites = async () => {
+    // make mutaion
+    // const [addToFavourites] = useMutation(ADD_TO_FAVOURITE);
+    // const newCounter = await addToFavourites({ varibles: { id: song.id } });
+    // setSong(); <- add new count of favourites
+    alert('added!');
+  };
+  
+  const createButtons = (listened, favourited) => {
+    return (
+      <div className="buttons">
+        <p className="card music">listened<br/><p className="counter">{listened}</p></p>
+        <p className="card music" onClick={e => addToUserFavourites()}>favourited<br/><p className="counter">{favourited}</p></p>
+      </div>
+    );
+  };
+
+
   const { loading, error, data } = useQuery(GET_SONG, {
     variables: {id: useParams().id },
   });
-
-  const [song, setSong] = useState({});
 
   useEffect(() => {
     if (data) {
