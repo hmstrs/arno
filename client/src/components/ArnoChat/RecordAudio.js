@@ -1,3 +1,5 @@
+window.MediaRecorder = require('audio-recorder-polyfill');
+
 const makeBase64 = async audioBlob =>
   new Promise(resolve => {
     const reader = new FileReader();
@@ -10,14 +12,12 @@ const makeBase64 = async audioBlob =>
 
 const recordAudio = () =>
   new Promise(async (resolve, reject) => {
-    const hasGetUserMedia = () =>
-      !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-    if (!hasGetUserMedia()) {
-      reject('getUserMedia() is not support by your browser');
+    if (MediaRecorder.notSupported) {
+      alert('not support MediaRecorder but we will try');
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const mediaRecorder = new window.MediaRecorder(stream);
       let audioChunks = [];
 
       mediaRecorder.addEventListener('dataavailable', event =>
@@ -48,7 +48,9 @@ const recordAudio = () =>
       resolve({ start, stop });
     } catch (err) {
       console.log(err);
-      alert('Вы не предоставили доступ на запись микрофона');
+      alert(
+        'Вы не предоставили доступ на запись микрофона, Дайте права на запись в настройках сайта'
+      );
     }
   });
 

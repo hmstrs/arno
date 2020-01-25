@@ -4,7 +4,6 @@ const songSchema = new mongoose.Schema({
   reference: {
     type: String,
     required: true,
-    unique: true
   },
   title: {
     type: String,
@@ -20,7 +19,7 @@ const songSchema = new mongoose.Schema({
   },
   favourited: {
     type: Number,
-    required: true
+    required: true,
   },
 });
 

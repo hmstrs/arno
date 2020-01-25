@@ -25,7 +25,8 @@ module.exports = {
       if (!validateId(id)) {
         throw new UserInputError('Bad Id');
       }
-      const user = await userModel.findById({ _id: id })
+      const user = await userModel
+        .findById({ _id: id })
         .populate('games.song')
         .populate('games.offered')
         .populate('favourites');
@@ -94,15 +95,29 @@ module.exports = {
         password,
         email,
         games: [],
-        favourites: []
+        favourites: [],
       });
       return foundUser;
     },
-    clearGameHistory: async (parent, args, { models: { userModel, songModel }, me }, info) => {
-      const clearedUser = await userModel.findOneAndUpdate({ _id: me.id }, { $set: { games: [] } }, { new: true });
+    clearGameHistory: async (
+      parent,
+      args,
+      { models: { userModel, songModel }, me },
+      info
+    ) => {
+      const clearedUser = await userModel.findOneAndUpdate(
+        { _id: me.id },
+        { $set: { games: [] } },
+        { new: true }
+      );
       return clearedUser;
     },
-    addGame: async (parent, { win, tries, song, offered }, { models: { userModel, songModel }, me }, info) => {
+    addGame: async (
+      parent,
+      { win, tries, song, offered },
+      { models: { userModel, songModel }, me },
+      info
+    ) => {
       const { reference, title, artist } = song;
       if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
@@ -110,66 +125,94 @@ module.exports = {
       // getting id of song
       const foundSong = await findOrCreate(
         songModel,
-        { reference },
+        { reference, artist, title },
         {
           reference,
           artist,
           title,
           listened: 0,
-          favourited: 0
+          favourited: 0,
         }
       );
       // getting id of songs
-      const foundOffered = await Promise.all(offered.map(async el => {
-        const { reference, title, artist } = el;
-        const foundSong = await findOrCreate(
-          songModel,
-          { reference },
-          {
-            reference,
-            artist,
-            title,
-            listened: 0,
-            favourited: 0
-          }
-        );
-        return foundSong;
-      }));
+      const foundOffered = await Promise.all(
+        offered.map(async el => {
+          const { reference, title, artist } = el;
+          const foundSong = await findOrCreate(
+            songModel,
+            { reference, artist, title },
+            {
+              reference,
+              artist,
+              title,
+              listened: 0,
+              favourited: 0,
+            }
+          );
+          return foundSong;
+        })
+      );
       // add theese ids to user
-      const userWithNewGame = await userModel.findOneAndUpdate(
-        { _id: me.id },
-        { $push: { games: { win, tries, song: foundSong._id, offered: foundOffered.map(el => el._id) } } },
-        { new: true }
-      )
+      const userWithNewGame = await userModel
+        .findOneAndUpdate(
+          { _id: me.id },
+          {
+            $push: {
+              games: {
+                win,
+                tries,
+                song: foundSong._id,
+                offered: foundOffered.map(el => el._id),
+              },
+            },
+          },
+          { new: true }
+        )
         .populate('games.song')
         .populate('games.offered')
         .populate('favourites');
       // return user with dereferenced id
       return userWithNewGame;
     },
-    addFavourites: async (parent, { id }, { models: { userModel }, me }, info) => {
+    addFavourites: async (
+      parent,
+      { id },
+      { models: { userModel, songModel }, me },
+      info
+    ) => {
       if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
       }
-      const favourite = await userModel.findOneAndUpdate(
-        { _id: me.id },
-        { $addToSet: { favourites: id } },
-        { new: true }
-      )
+      await songModel.findOneAndUpdate(
+        { _id: id },
+        { $inc: { favourited: 1 } }
+      );
+      const favourite = await userModel
+        .findOneAndUpdate(
+          { _id: me.id },
+          { $addToSet: { favourites: id } },
+          { new: true }
+        )
         .populate('games.song')
         .populate('games.offered')
         .populate('favourites');
       return favourite;
     },
-    deleteFavourites: async (parent, { id }, { models: { userModel }, me }, info) => {
+    deleteFavourites: async (
+      parent,
+      { id },
+      { models: { userModel }, me },
+      info
+    ) => {
       if (!validateId(me.id)) {
         throw new UserInputError('Bad Id');
       }
-      const deletedFavourite = await userModel.findOneAndUpdate(
-        { _id: me.id },
-        { $pull: { favourites: id } },
-        { new: true }
-      )
+      const deletedFavourite = await userModel
+        .findOneAndUpdate(
+          { _id: me.id },
+          { $pull: { favourites: id } },
+          { new: true }
+        )
         .populate('games.song')
         .populate('games.offered')
         .populate('favourites');

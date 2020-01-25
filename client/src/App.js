@@ -20,7 +20,6 @@ import RestorePassword from './pages/RestorePassword/RestorePassword';
 import './App.css';
 
 const token = localStorage.getItem('token');
-
 const client = new ApolloClient({
   link: new HttpLink({
     // uri: 'http://localhost:4000/graphql',
