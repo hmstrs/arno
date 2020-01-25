@@ -8,37 +8,42 @@ const makeBase64 = async audioBlob =>
     };
   });
 const recordAudio = () =>
-  new Promise(async resolve => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new MediaRecorder(stream);
-    let audioChunks = [];
+  new Promise(async (resolve, reject) => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      let audioChunks = [];
 
-    mediaRecorder.addEventListener('dataavailable', event =>
-      audioChunks.push(event.data)
-    );
+      mediaRecorder.addEventListener('dataavailable', event =>
+        audioChunks.push(event.data)
+      );
 
-    const start = () => {
-      if (mediaRecorder.state === 'inactive') {
-        audioChunks = [];
-        mediaRecorder.start();
-      }
-    };
+      const start = () => {
+        if (mediaRecorder.state === 'inactive') {
+          audioChunks = [];
+          mediaRecorder.start();
+        }
+      };
 
-    const stop = () =>
-      new Promise(resolve => {
-        mediaRecorder.addEventListener('stop', async () => {
-          const audioBlob = new Blob(audioChunks);
-          const audioUrl = URL.createObjectURL(audioBlob);
-          const audio = new Audio(audioUrl);
-          const base64 = await makeBase64(audioBlob);
-          const play = () => audio.play();
-          resolve({ audioBlob, base64, play });
+      const stop = () =>
+        new Promise(resolve => {
+          mediaRecorder.addEventListener('stop', async () => {
+            const audioBlob = new Blob(audioChunks);
+            const audioUrl = URL.createObjectURL(audioBlob);
+            const audio = new Audio(audioUrl);
+            const base64 = await makeBase64(audioBlob);
+            const play = () => audio.play();
+            resolve({ audioBlob, base64, play });
+          });
+
+          mediaRecorder.stop();
         });
 
-        mediaRecorder.stop();
-      });
-
-    resolve({ start, stop });
+      resolve({ start, stop });
+    } catch (err) {
+      console.log(err);
+      alert('Вы не предоставили доступ на запись микрофона');
+    }
   });
 
 export default recordAudio;

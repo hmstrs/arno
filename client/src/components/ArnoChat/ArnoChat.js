@@ -350,8 +350,12 @@ const ArnoChat = ({ className, gameStarted }) => {
     }
   };
   const onMouseDownHandler = async () => {
-    await recorder.start();
-    setMessage({ ...message, recording: true });
+    if (recorder) {
+      await recorder.start();
+      setMessage({ ...message, recording: true });
+    } else {
+      alert('Вы не предоставили доступ на запись микрофона');
+    }
   };
   return (
     <div className={`ArnoChat ${className}`}>
