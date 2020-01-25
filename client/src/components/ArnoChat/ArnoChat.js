@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ArnoMessage from './ArnoMessage/ArnoMessage';
 import UserMessage from './UserMessage/UserMessage';
 import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
-import recordAudio from './recordAudio';
+import recordAudio from './RecordAudio';
 import { compareObjs, offeredWithoutSong } from '../../tools/objectOperations';
 import './ArnoChat.css';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -58,12 +58,14 @@ const ArnoChat = ({ className, gameStarted }) => {
   });
   const [recorder, setRecoder] = useState(null);
   const [tries, setTries] = useState(0);
-  const [index, setIndex] = useState(0);
+	const [index, setIndex] = useState(0);
+	// eslint-disable-next-line
   const [win, setWin] = useState(false);
   const [existBadUserInput, setExistBadUserInput] = useState(false);
   const [firstStep, setFirstStep] = useState('');
   const [rowGames, setRowGames] = useState(0);
-  const [songInfo, setSongInfo] = useState(defaultSong);
+	const [songInfo, setSongInfo] = useState(defaultSong);
+	// eslint-disable-next-line
   const [deezerID, setDeezerID] = useState('0');
 
   const didTry = tries > 0;
@@ -250,7 +252,7 @@ const ArnoChat = ({ className, gameStarted }) => {
     },
     onError: err => {
       if (err.graphQLErrors.length > 0) {
-        const { code, errors } = err.graphQLErrors[0].extensions;
+        const { code } = err.graphQLErrors[0].extensions;
         if (code === 'BAD_USER_INPUT') {
           sendWrongMessage();
         }
@@ -293,14 +295,16 @@ const ArnoChat = ({ className, gameStarted }) => {
           ? sendWrongMessage()
           : sendChoiceMessage()
         : endGameWithoutWin(tries)
-      : sendGreetingMessage();
+			: sendGreetingMessage();
+	// eslint-disable-next-line
   }, [tries]);
 
   useEffect(() => {
     if (gameStarted) {
       (async () => setRecoder(await recordAudio()))();
       messages.length === 0 && sendGreetingMessage();
-    } else clearChatContext();
+		} else clearChatContext();
+	// eslint-disable-next-line
   }, [gameStarted]);
 
   const startNewGame = async () => {
@@ -329,7 +333,7 @@ const ArnoChat = ({ className, gameStarted }) => {
   const onSubmit = async () => {
     if (message.message) {
       setFirstStep('typing');
-      sendUserMessage(message.message);
+			sendUserMessage(message.message);
       await fetchLyricsHelper(message.message);
       clearInputMessage();
     }

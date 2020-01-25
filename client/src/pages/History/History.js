@@ -67,13 +67,13 @@ const History = () => {
     loading || error ? (
 			<Spinner animation="border" />
 		) : ( !games.length ? (
-      <div>
+      <center>
         <p className="fav">
           It seems like you still haven't played with our bot :( <br />Try it now :)
         </p>
-      </div>
+      </center>
     ) : (
-      games.map(({win, song: { title, artist }, tries}) => (
+      games.reverse().map(({win, song: { title, artist }, tries}) => (
 				<div className="card card-history" key={Math.random()}>
 					<div className="win">
 						<FaTrophy style={{
@@ -86,7 +86,7 @@ const History = () => {
       ))
     )
   );
-			
+
 
   return (
     <div className="Page History">

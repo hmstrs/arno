@@ -8,8 +8,9 @@
 }
 
 .Page {
-	height: 100vh;
-	padding-top: 80px;
+	min-height: calc(100vh - 160px);
+	padding: 80px 0;
+	overflow: auto;
 }
 
 .card {

@@ -9,7 +9,7 @@
   transform: translateX(33vw);
   background: #ff4e00;
   transition: all ease 300ms;
-  z-index: 100;
+  z-index: 101;
 }
 ::-webkit-scrollbar {
   overflow: visible;

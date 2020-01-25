@@ -18,8 +18,8 @@ const ArnoMessage = (id, state, data, playSong, tryAgain) => {
         (obj, index) =>
           index + 1 <= data.tries && (
             <div key={index}>
-              <div className="text1 offered-song">{obj.title}</div>
-              <div className="text1 artist">by {obj.artist}</div>
+              <div className="text1 offered-song">{obj.title || 'Нет вариантов'}</div>
+              <div className="text1 artist">by {obj.artist || 'Вообще'}</div>
             </div>
           )
       )
@@ -58,15 +58,15 @@ const ArnoMessage = (id, state, data, playSong, tryAgain) => {
       <img src={Logo} alt="" className="arno-logo" />
       <div className="main-text arno-text">
         Я думаю это:
-        <div className="text1 offered-song">{data.title}</div>
-        <div className="text1 artist">by {data.artist}</div>
+				<div className="text1 offered-song">{data ? data.title : 'Нет вариантов'}</div>
+				<div className="text1 artist">by {data ? data.artist : 'Вообще'}</div>
         <div className="h text-center">
           <div className="pb-3 pt-3">
             <button className="btn-true float-left" onClick={playSong}>
               Да, так и есть
             </button>
             <button className="btn-false float-right" onClick={tryAgain}>
-              Еще, попытка
+              Еще попытка
             </button>
           </div>
         </div>
