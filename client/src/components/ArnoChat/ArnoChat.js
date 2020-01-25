@@ -93,15 +93,8 @@ const ArnoChat = ({ className, gameStarted }) => {
         console.log('res', res);
       })
       .catch(err => {
-        console.dir(err.networkError);
+        console.log(err.networkError);
       });
-
-    console.log('---------------------');
-    console.log('win', win);
-    console.log('song', song);
-    console.log('tries', tries);
-    console.log('offered', arrayOfferedSong);
-    console.log('---------------------');
   };
 
   const clearChatContext = async () => {

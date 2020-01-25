@@ -41,6 +41,12 @@
   font-weight: bold;
   font-size: 12px;
 }
+.lis {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+}
 
 .trackName {
   font-family: SFfont;

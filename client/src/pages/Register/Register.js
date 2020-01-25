@@ -40,11 +40,9 @@ const Register = props => {
       variables: inputs
     })
       .then(res => {
-        // console.log('res', res);
         props.history.push('/login');
       })
       .catch(err => {
-        // console.log(err);
         if (err.graphQLErrors.length > 0) {
           const { code, errors } = err.graphQLErrors[0].extensions;
           code === 'BAD_USER_INPUT' && setErrors(errors);

@@ -69,17 +69,17 @@ const Track = () => {
     return (
       <div className="buttons">
         <div className="card music">
-          listened
-          <br />
-          <p className="counter">{listened}</p>
+          <div className="counter">{listened}</div>
+          <div className="lis">listened</div>
         </div>
         <div
           className="card music"
           onClick={e => (!favourite ? addToUserFavourites() : null)}
         >
-          {favourite ? 'favourited' : 'add to favourite'}
-          <br />
-          <p className="counter">{favourited}</p>
+          <div className="counter">{favourited}</div>
+          <div className="lis">
+            {favourite ? 'favourited' : 'add to favourite'}
+          </div>
         </div>
       </div>
     );
@@ -99,9 +99,14 @@ const Track = () => {
     <Spinner animation="border" />
   ) : error || (song && song.reference === '0') ? (
     <Fragment>
-      <p className="text track-info" margin-top="3%">
-        Sorry deezer can't play your song
-      </p>
+      <div
+        style={{
+          paddingTop: '3%'
+        }}
+        className="text track-info"
+      >
+        К сожелению данный трек не выйдет проиграть, так как его нет в Deezer
+      </div>
     </Fragment>
   ) : (
     <div className="Page Track">

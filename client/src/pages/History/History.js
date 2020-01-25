@@ -51,7 +51,7 @@ const History = () => {
 
   useEffect(() => {
     if (data) {
-      setGames(data.user.games);
+      setGames(data.user.games.reverse());
     }
   }, [data]);
 
@@ -72,12 +72,12 @@ const History = () => {
     ) : !games.length ? (
       <center>
         <p className="fav">
-          It seems like you still haven't played with our bot :( <br />
-          Try it now :)
+          Хм, мне кажется вы так и не играли с нашим ботом :( <br />
+          Сыграйте сейчас :)
         </p>
       </center>
     ) : (
-      games.reverse().map(({ win, song: { title, artist, _id }, tries }) => (
+      games.map(({ win, song: { title, artist, _id }, tries }) => (
         <a
           key={Math.random()}
           className="link-to-player"
@@ -96,7 +96,7 @@ const History = () => {
             <div>
               {title}
               <br />
-              by {artist}
+              {win ? `by ${artist}` : ``}
             </div>
           </div>
         </a>
@@ -108,7 +108,7 @@ const History = () => {
       <div className=" History">
         <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
           <Col>
-            <div className="text">History</div>
+            <div className="text">История</div>
           </Col>
           <Col>
             <Button
