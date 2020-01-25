@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ArnoMessage from './ArnoMessage/ArnoMessage';
 import UserMessage from './UserMessage/UserMessage';
 import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
-import recordAudio from './recordAudio';
+import recordAudio from './RecordAudio';
 import { compareObjs, offeredWithoutSong } from '../../tools/objectOperations';
 import './ArnoChat.css';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
