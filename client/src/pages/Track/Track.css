@@ -71,3 +71,24 @@
 .idk {
   padding-top: 3%;
 }
+
+.card-track {
+  background: #26282b;
+  box-shadow: -10px -10px 30px #33363a, 10px 10px 30px #191a1c;
+  border-radius: 10px;
+  width: 295px;
+  height: 112px;
+}
+
+@media screen and (max-width: 600px) {
+  .card-track {
+    width: 160px;
+  }
+  .frame-track {
+    width: 325px;
+    height: 325px;
+  }
+  .buttons {
+    margin-top: 5%;
+  }
+}

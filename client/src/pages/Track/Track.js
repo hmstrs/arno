@@ -27,29 +27,35 @@ const ADD_TO_FAVOURITE = gql`
   }
 `;
 
-const createId = id => {
-  return `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=400&height=400&color=ff8300&layout=dark&size=medium&type=tracks&id=${id}&app_id=1`;
-};
-
-const createFrame = src => (
-  <div className="frame-track mx-auto">
-    <iframe
-      scrolling="no"
-      frameBorder="0"
-      allowtransparency="true"
-      width="400"
-      height="400"
-      src={src}
-    />
-    ;
-  </div>
-);
-
 const Track = () => {
   const [song, setSong] = useState({});
   const [favourite, setFavourite] = useState({});
   const [addToFavourites] = useMutation(ADD_TO_FAVOURITE);
   const id = useParams().id;
+
+  const isMobile = window.innerWidth <= 600;
+
+  const createId = id => {
+    return `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=${
+      isMobile ? 325 : 400
+    }&height=${
+      isMobile ? 325 : 400
+    }&color=ff8300&layout=dark&size=medium&type=tracks&id=${id}&app_id=1`;
+  };
+
+  const createFrame = src => (
+    <div className="frame-track mx-auto">
+      <iframe
+        scrolling="no"
+        frameBorder="0"
+        allowtransparency="true"
+        width={`${isMobile ? 325 : 400}`}
+        height={`${isMobile ? 325 : 400}`}
+        src={src}
+      />
+      ;
+    </div>
+  );
 
   const { loading, error, data } = useQuery(GET_SONG, { variables: { id } });
 
@@ -68,12 +74,12 @@ const Track = () => {
   const createButtons = (listened, favourited) => {
     return (
       <div className="buttons">
-        <div className="card music">
+        <div className="card-track music">
           <div className="counter">{listened}</div>
           <div className="lis">listened</div>
         </div>
         <div
-          className="card music"
+          className="card-track music"
           onClick={e => (!favourite ? addToUserFavourites() : null)}
         >
           <div className="counter">{favourited}</div>
