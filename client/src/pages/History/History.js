@@ -66,8 +66,14 @@ const History = () => {
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
-		) : (
-			games.map(({win, song: { title, artist }, tries}) => (
+		) : ( !games.length ? (
+      <center>
+        <p className="fav">
+          It seems like you still haven't played with our bot :( <br />Try it now :)
+        </p>
+      </center>
+    ) : (
+      games.reverse().map(({win, song: { title, artist }, tries}) => (
 				<div className="card card-history" key={Math.random()}>
 					<div className="win">
 						<FaTrophy style={{
@@ -77,26 +83,30 @@ const History = () => {
 					</div>
 					<div>{title}<br/>by {artist}</div>
 				</div>
-			))
-		);
+      ))
+    )
+  );
+
 
   return (
-    <div className="Page History">
-      <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
-        <Col>
-          <div className="text">History</div>
-        </Col>
-				<Col>
-          <Button
-            onClick={onSubmit}
-            variant="link"
-            className="px-0 float-right"
-          >
- 						<img src={clear} alt="" />
-          </Button>
-        </Col>
-      </Col>
-      {MainContent}
+    <div className="Page">
+    	<div className=" History">
+				<Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
+					<Col>
+						<div className="text">History</div>
+					</Col>
+					<Col>
+						<Button
+							onClick={onSubmit}
+							variant="link"
+							className="px-0 float-right"
+						>
+							<img src={clear} alt="" />
+						</Button>
+					</Col>
+				</Col>
+				{MainContent}
+			</div>
     </div>
   );
 };

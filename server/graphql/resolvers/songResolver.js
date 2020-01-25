@@ -14,19 +14,15 @@ module.exports = {
       console.log(favourite);
       if (favourite) return true;
       return false;
+    },
+    getSong: async (parent, { id }, { models: { songModel, userModel } }, info) => {
+      const song = await songModel.findOneAndUpdate({ _id: id }, { $inc: { listened: 1 } }, { new: true });
+      return song;
     }
   },
 
   Mutation: {
-    addListened: async (parent, { reference }, { models: { songModel } }, info) => {
-      const updatedCounter = songModel.findOneAndUpdate(
-        { reference },
-        { $inc: { listened: 1 } },
-        { new: true }
-      );
-      return updatedCounter;
-    },
-    addFavorited: async (parent, { reference }, { models: { songModel } }, info) => {
+    addFavourited: async (parent, { reference }, { models: { songModel } }, info) => {
       const updatedCounter = songModel.findOneAndUpdate(
         { reference },
         { $inc: { favourited: 1 } },
@@ -47,10 +43,6 @@ module.exports = {
         });
       }
       return foundSong;
-    },
-    getSong: async (parent, { id }, { models: { songModel, userModel } }, info) => {
-      const song = await songModel.findOneAndUpdate({ _id: id }, { $inc: { listened: 1 } }, { new: true });
-      return song;
     }
   },
 };

@@ -8,7 +8,10 @@ const Layout = ({ children }) => {
   const gameClickHandler = () => setGameStarted(!gameStarted);
   return (
     <Fragment>
-      <ArnoChat className={gameStarted ? 'active' : ''} />
+      <ArnoChat
+        gameStarted={gameStarted}
+        className={gameStarted ? 'active' : ''}
+      />
       <Main
         gameClickHandler={gameClickHandler}
         gameStarted={gameStarted}

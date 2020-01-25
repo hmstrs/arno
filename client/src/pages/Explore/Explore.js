@@ -44,13 +44,15 @@ const Explore = () => {
 		)
 
   return (
-    <div className="Page Explore">
-      <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
-        <Col>
-          <div className="text">Explore</div>
-        </Col>
-      </Col>
-      {MainContent}
+    <div className="Page">
+			<div className="Explore">
+				<Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
+					<Col>
+						<div className="text">Explore</div>
+					</Col>
+				</Col>
+				{MainContent}
+			</div>
     </div>
   );
 };

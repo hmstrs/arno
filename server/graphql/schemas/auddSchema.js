@@ -1,8 +1,16 @@
 const { gql } = require('apollo-server-koa');
 
 module.exports = gql`
+  type Response {
+    artist: String!
+    title: String!
+    reference: String!
+  }
+
   extend type Query {
-    recogniseByLirics(lyrics: String!): Object!
-    recogniseByHumming(humming: String!): Object!
+    recogniseByBase64(audio: String!): [Response!]!
+    recogniseByLyrics(lyrics: String!): [Response!]!
   }
 `;
+
+// recogniseByHumming(humming: String!): Object!

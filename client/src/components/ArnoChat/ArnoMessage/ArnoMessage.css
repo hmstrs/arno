@@ -1,0 +1,68 @@
+.arno-logo {
+  margin: 5%;
+  margin-bottom: 0;
+  margin-right: 25%;
+}
+
+.arno-text {
+  margin-right: 25%;
+  background-color: white;
+}
+.offered-song {
+  color: #222;
+
+  font-size: 22px;
+  line-height: 28px;
+}
+.text1 {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: -0.02em;
+  text-indent: 10px;
+  color: #222;
+}
+.artist {
+  color: #222;
+  font-size: 14px;
+  line-height: 15px;
+}
+.btn-true,
+.btn-false {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.btn-true:focus,
+.btn-false:focus {
+  outline: 0 !important;
+}
+
+.btn-new-game {
+  color: #f96900;
+  width: 90%;
+  font-family: SFfont;
+  font-style: normal;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  margin: 5%;
+  padding: 3%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.btn-true {
+  color: #f96900;
+}
+.btn-false {
+  color: #222;
+}
+.win-result {
+  color: #f96900;
+}
+.overlay-no-click {
+  background-color: rgba(255, 255, 255, 0.425) !important;
+  pointer-events: none;
+}

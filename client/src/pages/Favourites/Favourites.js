@@ -66,6 +66,12 @@ const AllUsers = () => {
   const MainContent =
     loading || error ? (
 			<Spinner animation="border" />
+    ) : !songs.length ? (
+      <center>
+        <p className="fav">
+          It seems like you don't have music yet :( <br/> Check our <a href="/explore">daily top</a>.
+        </p>
+      </center>
     ) : (
 			songs.map(({title, artist, _id}) => (
 				<div className="card card-favourite" key={Math.random()}>
@@ -80,13 +86,15 @@ const AllUsers = () => {
 		);
 
   return (
-    <div className="Page Favourites">
-      <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
-        <Col>
-          <div className="text">Favourites</div>
-        </Col>
-      </Col>
-      {MainContent}
+    <div className="Page">
+			<div className="Favourites">
+				<Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
+					<Col>
+						<div className="text">Favourites</div>
+					</Col>
+				</Col>
+				{MainContent}
+			</div>
     </div>
   );
 };
