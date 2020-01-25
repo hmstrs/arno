@@ -26,7 +26,6 @@ const ADD_GAME = gql`
     addGame(win: $win, song: $song, tries: $tries, offered: $offered) {
       name
       id
-      games
     }
   }
 `;
@@ -79,21 +78,21 @@ const ArnoChat = ({ className, gameStarted }) => {
     const arrayOfferedSong = compareObjs(offered, defaultSong)
       ? []
       : offeredWithoutSong(offered, song);
-
-    // addGame({
-    //   variables: {
-    //     win,
-    //     song,
-    //     tries,
-    //     offered: arrayOfferedSong
-    //   }
-    // })
-    //   .then(res => {
-    //     console.log('res', res);
-    //   })
-    //   .catch(err => {
-    //     console.dir(err);
-    //   });
+    delete song.__typename;
+    addGame({
+      variables: {
+        win,
+        song,
+        tries,
+        offered: arrayOfferedSong
+      }
+    })
+      .then(res => {
+        console.log('res', res);
+      })
+      .catch(err => {
+        console.dir(err.networkError);
+      });
 
     console.log('---------------------');
     console.log('win', win);
@@ -356,7 +355,9 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
   return (
     <div className={`ArnoChat ${className}`}>
-      <a id="scroll-to-last" href={`#${messages.length - 1}`}></a>
+      <a id="scroll-to-last" href={`#${messages.length - 1}`}>
+        {' '}
+      </a>
       <div className="chat-wrapper">{messages}</div>
 
       <div className="bottom">

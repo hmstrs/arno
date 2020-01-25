@@ -9,10 +9,12 @@
   background-color: white;
 }
 .offered-song {
+  color: #222;
+
   font-size: 22px;
   line-height: 28px;
 }
-.text {
+.text1 {
   font-family: SFfont;
   font-style: normal;
   font-weight: bold;
@@ -21,6 +23,7 @@
   color: #222;
 }
 .artist {
+  color: #222;
   font-size: 14px;
   line-height: 15px;
 }

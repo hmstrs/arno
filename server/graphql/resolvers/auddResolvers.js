@@ -71,7 +71,6 @@ module.exports = {
 
       if (status === 'error' || !result)
         throw new UserInputError('error with Audd');
-
       const offered = uniq(result, 'title').slice(0, 5);
       const offeredWithIds = await Promise.all(
         offered.map(async el => {

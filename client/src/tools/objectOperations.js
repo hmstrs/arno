@@ -14,12 +14,12 @@ const matchesObjProps = (obj1, obj2, { title, artist, reference }) =>
 
 export const offeredWithoutSong = (array, song) =>
   removeDuplicateObject(
-    array.filter(
-      offeredSong =>
-        !matchesObjProps(offeredSong, song, {
-          title: 'title',
-          artist: 'artist',
-          reference: 'reference'
-        })
-    )
+    array.filter(offeredSong => {
+      delete offeredSong.__typename;
+      return !matchesObjProps(offeredSong, song, {
+        title: 'title',
+        artist: 'artist',
+        reference: 'reference'
+      });
+    })
   );
