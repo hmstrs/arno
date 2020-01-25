@@ -1,0 +1,12 @@
+.frame {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgb(221, 214, 214);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mg-five {
+  margin: 5%;
+}
