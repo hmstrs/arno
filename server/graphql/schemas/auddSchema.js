@@ -12,5 +12,3 @@ module.exports = gql`
     recogniseByLyrics(lyrics: String!): [Response!]!
   }
 `;
-
-// recogniseByHumming(humming: String!): Object!

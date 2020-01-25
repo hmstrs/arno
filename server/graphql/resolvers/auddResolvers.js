@@ -28,7 +28,7 @@ module.exports = {
     recogniseByBase64: async (parent, { audio }, context, info) => {
       const body = new FormData();
       body.append('audio', audio);
-      body.append('api_token', '92260de1ef900a5b1cc857c23eff9550');
+      body.append('api_token', process.env.AUDD_TOKEN);
 
       const response = await fetch(process.env.AUDD_LINK, {
         method: 'POST',
@@ -57,7 +57,7 @@ module.exports = {
     recogniseByLyrics: async (parent, { lyrics }, context, info) => {
       const body = new FormData();
       body.append('q', lyrics);
-      body.append('api_token', '92260de1ef900a5b1cc857c23eff9550');
+      body.append('api_token', process.env.AUDD_TOKEN);
 
       const response = await fetch(process.env.AUDD_LYRICS, {
         method: 'POST',
@@ -82,12 +82,5 @@ module.exports = {
 
       return offeredWithIds;
     },
-    //   recogniseByHumming: async (parent, { humming }, context, info) => {
-    //     const responce = await fetch(process.env.AUDD_HUMMING, {
-    //       method: 'POST',
-    //       body: { humming },
-    //     }).then(res => res.json());
-    //     return responce;
-    //   },
   },
 };
