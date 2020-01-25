@@ -3,7 +3,8 @@ import Logo from './logo.svg';
 import './ArnoMessage.css';
 const GREETING =
   'Привет, я - Арно,\n отгадаю любую песню. \n Запиши мне аудио трека или отправь пару фраз песни.';
-const SOMETHING_WRONG = 'Хм, Попробуй еще раз';
+const SOMETHING_WRONG = 'Хм, Попробуйте еще раз';
+const AUDIO_WRITTEN = 'Ваше аудио записано, ожидайте результата';
 
 const ArnoMessage = (id, state, data, playSong, tryAgain) => {
   const isMultipleTracks =
@@ -25,7 +26,7 @@ const ArnoMessage = (id, state, data, playSong, tryAgain) => {
     : null;
 
   return state && state.result ? (
-    <div key={id}>
+    <div id={id} key={id}>
       <img src={Logo} alt="" className="arno-logo" />
 
       <div className="main-text arno-text">
@@ -38,22 +39,22 @@ const ArnoMessage = (id, state, data, playSong, tryAgain) => {
         Количество побед: <b>{data.rowGames}</b> <br />
         {isMultipleTracks && 'Я думал об этих треках:'}
         {thinkingTracks}
-        <div className="text-center">
-          <button className="btn-true float-center" onClick={data.startNewGame}>
-            Начать новую игру?
-          </button>
-        </div>
+        <div className="win-result">Желаете сыгать еще?</div>
       </div>
     </div>
+  ) : state && state.audio_written ? (
+    <div id={id} key={id}>
+      <p className="main-text arno-text">{AUDIO_WRITTEN}</p>
+    </div>
   ) : state && (state.greeting || !state.success) ? (
-    <div key={id}>
+    <div id={id} key={id}>
       <img src={Logo} alt="" className="arno-logo" />
       <p className="main-text arno-text">
         {state.greeting ? GREETING : SOMETHING_WRONG}
       </p>
     </div>
   ) : (
-    <div key={id}>
+    <div className="" id={id} key={id}>
       <img src={Logo} alt="" className="arno-logo" />
       <div className="main-text arno-text">
         Я думаю это:

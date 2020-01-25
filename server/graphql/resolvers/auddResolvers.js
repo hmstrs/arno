@@ -19,8 +19,8 @@ const getDeezerID = async ({ artist, track }) => {
 
   if (data && data.length > 0) {
     const { id } = data[0];
-    return id ? id : 0;
-  } else return 0;
+    return id ? +id : '0';
+  } else return '0';
 };
 
 module.exports = {
@@ -28,7 +28,7 @@ module.exports = {
     recogniseByBase64: async (parent, { audio }, context, info) => {
       const body = new FormData();
       body.append('audio', audio);
-      body.append('api_token', 'e8a63ff0ea7d88a64461904da44bc976');
+      body.append('api_token', '92260de1ef900a5b1cc857c23eff9550');
 
       const response = await fetch(process.env.AUDD_LINK, {
         method: 'POST',
@@ -44,14 +44,20 @@ module.exports = {
       if (status === 'error' || !result)
         throw new UserInputError('error with Audd');
 
-      return [result];
+      const resultWithId = await Promise.all(
+        [result].map(async el => {
+          const { title, artist } = el;
+          const reference = await getDeezerID({ artist, track: title });
+          return { ...el, reference };
+        })
+      );
+      return resultWithId;
     },
 
     recogniseByLyrics: async (parent, { lyrics }, context, info) => {
       const body = new FormData();
       body.append('q', lyrics);
-      body.append('api_token', 'test');
-      body.append('api_token', 'e8a63ff0ea7d88a64461904da44bc976');
+      body.append('api_token', '92260de1ef900a5b1cc857c23eff9550');
 
       const response = await fetch(process.env.AUDD_LYRICS, {
         method: 'POST',
@@ -62,28 +68,20 @@ module.exports = {
           throw new UserInputError('error with Audd');
         });
       const { result, status } = response;
-      console.log(result, status);
-      console.log(response);
 
       if (status === 'error' || !result)
         throw new UserInputError('error with Audd');
 
       const offered = uniq(result, 'title').slice(0, 5);
+      const offeredWithIds = await Promise.all(
+        offered.map(async el => {
+          const { title, artist } = el;
+          const reference = await getDeezerID({ artist, track: title });
+          return { ...el, reference };
+        })
+      );
 
-      return offered;
-    },
-    getTrackID: async (parent, { artist, track }, context, info) => {
-      const response = await fetch(
-        `${process.env.DEEZER_SEARCH_LINK}artist:"${encodeURIComponent(
-          artist
-        )}" track:"${encodeURIComponent(track)}"`
-      ).then(res => res.json());
-      const { data } = response;
-
-      if (data && data.length > 0) {
-        const { id } = data[0];
-        return id ? id : 0;
-      } else return 0;
+      return offeredWithIds;
     },
     //   recogniseByHumming: async (parent, { humming }, context, info) => {
     //     const responce = await fetch(process.env.AUDD_HUMMING, {

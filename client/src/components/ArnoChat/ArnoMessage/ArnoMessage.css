@@ -37,6 +37,19 @@
   outline: 0 !important;
 }
 
+.btn-new-game {
+  color: #f96900;
+  width: 90%;
+  font-family: SFfont;
+  font-style: normal;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  margin: 5%;
+  padding: 3%;
+  border-radius: 10px;
+  background-color: white;
+}
+
 .btn-true {
   color: #f96900;
 }
@@ -45,4 +58,8 @@
 }
 .win-result {
   color: #f96900;
+}
+.overlay-no-click {
+  background-color: rgba(255, 255, 255, 0.425) !important;
+  pointer-events: none;
 }

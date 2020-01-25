@@ -3,32 +3,41 @@ import ArnoMessage from './ArnoMessage/ArnoMessage';
 import UserMessage from './UserMessage/UserMessage';
 import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
 import recordAudio from './recordAudio';
+import { compareObjs, offeredWithoutSong } from '../../tools/objectOperations';
 import './ArnoChat.css';
-import { useLazyQuery } from '@apollo/react-hooks';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-
-const compareObjs = (obj1, obj2) =>
-  JSON.stringify(obj1) === JSON.stringify(obj2);
 
 const defaultSong = [
   {
     title: '',
-    artist: ''
+    artist: '',
+    reference: '0'
   }
 ];
+
+const ADD_GAME = gql`
+  mutation addGame(
+    $win: Boolean!
+    $song: OfferedSongInput!
+    $tries: Int!
+    $offered: [OfferedSongInput!]!
+  ) {
+    addGame(win: $win, song: $song, tries: $tries, offered: $offered) {
+      name
+      id
+      games
+    }
+  }
+`;
 
 const FETCH_AUDIO = gql`
   query recogniseByBase64($audio: String!) {
     recogniseByBase64(audio: $audio) {
       artist
       title
+      reference
     }
-  }
-`;
-
-const GET_DEEZER_ID = gql`
-  query getTrackID($artist: String!, $track: String!) {
-    getTrackID(artist: $artist, track: $track)
   }
 `;
 
@@ -37,12 +46,12 @@ const FETCH_LYRICS = gql`
     recogniseByLyrics(lyrics: $lyrics) {
       artist
       title
+      reference
     }
   }
 `;
 
 const ArnoChat = ({ className, gameStarted }) => {
-  const [index, setIndex] = useState(0);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState({
     message: '',
@@ -50,33 +59,70 @@ const ArnoChat = ({ className, gameStarted }) => {
   });
   const [recorder, setRecoder] = useState(null);
   const [tries, setTries] = useState(0);
+  const [index, setIndex] = useState(0);
   const [win, setWin] = useState(false);
   const [existBadUserInput, setExistBadUserInput] = useState(false);
   const [firstStep, setFirstStep] = useState('');
   const [rowGames, setRowGames] = useState(0);
   const [songInfo, setSongInfo] = useState(defaultSong);
-  const [deezerID, setDeezerID] = useState(0);
+  const [deezerID, setDeezerID] = useState('0');
 
   const didTry = tries > 0;
   const isAudio = firstStep === 'audio';
   const isTyping = firstStep === 'typing';
+  const isAudioOrEmpty = firstStep === '' || isAudio;
+  const isFinish = firstStep === 'finish';
 
   const clearInputMessage = async () => setMessage({ ...message, message: '' });
 
   const endGameQueryHelper = ({ win, song, tries, offered }) => {
-    console.log('---------------------');
+    const arrayOfferedSong = compareObjs(offered, defaultSong)
+      ? []
+      : offeredWithoutSong(offered, song);
 
+    // addGame({
+    //   variables: {
+    //     win,
+    //     song,
+    //     tries,
+    //     offered: arrayOfferedSong
+    //   }
+    // })
+    //   .then(res => {
+    //     console.log('res', res);
+    //   })
+    //   .catch(err => {
+    //     console.dir(err);
+    //   });
+
+    console.log('---------------------');
     console.log('win', win);
     console.log('song', song);
     console.log('tries', tries);
-    console.log('offered', offered);
+    console.log('offered', arrayOfferedSong);
     console.log('---------------------');
+  };
+
+  const clearChatContext = async () => {
+    setIndex(0);
+    setMessages([]);
+    setMessage({ message: '', recording: false });
+    setRecoder(null);
+    setTries(0);
+    setWin(false);
+    setExistBadUserInput(false);
+    setFirstStep('');
+    setRowGames(0);
+    setSongInfo(defaultSong);
+    setDeezerID('0');
   };
 
   const incCountTries = async () => setTries(tries + 1);
   const endGameWithoutWin = async Try => {
     setIndex(0);
     setWin(false);
+    setFirstStep('finish');
+
     messages.push(
       ArnoMessage(
         messages.length,
@@ -94,7 +140,7 @@ const ArnoChat = ({ className, gameStarted }) => {
     endGameQueryHelper({
       win: false,
       song: {
-        reference: 0,
+        reference: '0',
         title: 'Бот проиграл',
         artist: ' '
       },
@@ -104,6 +150,7 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
   const endGameWithWin = async () => {
     setIndex(0);
+    setFirstStep('finish');
 
     setRowGames(rowGames + 1);
     setWin(true);
@@ -124,12 +171,14 @@ const ArnoChat = ({ className, gameStarted }) => {
     endGameQueryHelper({
       win: true,
       song: {
-        reference: deezerID,
-        title: songInfo[songInfo.length - 1].title,
-        artist: songInfo[songInfo.length - 1].artist
+        artist: isAudio ? songInfo[index].artist : songInfo[tries - 1].artist,
+        title: isAudio ? songInfo[index].title : songInfo[tries - 1].title,
+        reference: isAudio
+          ? songInfo[index].reference
+          : songInfo[tries - 1].reference
       },
       tries,
-      offered: songInfo
+      offered: isAudio ? songInfo : songInfo.slice(0, tries)
     });
   };
 
@@ -140,6 +189,11 @@ const ArnoChat = ({ className, gameStarted }) => {
 
   const sendWrongMessage = async () => {
     messages.push(ArnoMessage(messages.length, { success: false }));
+    setMessages([...messages]);
+  };
+
+  const sendAudioWrittenMessage = async () => {
+    messages.push(ArnoMessage(messages.length, { audio_written: true }));
     setMessages([...messages]);
   };
 
@@ -165,18 +219,16 @@ const ArnoChat = ({ className, gameStarted }) => {
     );
     setMessages([...messages]);
   };
+  const [addGame] = useMutation(ADD_GAME);
 
   const [fetchAudio] = useLazyQuery(FETCH_AUDIO, {
     onCompleted: data => {
       const Try = tries + 1;
-      // console.log('tries on complite', Try);
       existBadUserInput && setExistBadUserInput(false);
 
       !didTry || compareObjs(songInfo, defaultSong)
         ? setSongInfo(data.recogniseByBase64)
         : setSongInfo([...songInfo, ...data.recogniseByBase64]);
-
-      // setSongInfo([...songInfo, ...data.recogniseByBase64]);
 
       Try <= 5 ? incCountTries() : endGameWithoutWin(Try);
     },
@@ -186,8 +238,6 @@ const ArnoChat = ({ className, gameStarted }) => {
         const { code } = err.graphQLErrors[0].extensions;
         if (code === 'BAD_USER_INPUT') {
           const Try = tries + 1;
-          // console.log('tries on errro', Try);
-
           setExistBadUserInput(true);
           Try < 5 ? incCountTries() : endGameWithoutWin(Try);
         }
@@ -202,21 +252,6 @@ const ArnoChat = ({ className, gameStarted }) => {
     onError: err => {
       if (err.graphQLErrors.length > 0) {
         const { code, errors } = err.graphQLErrors[0].extensions;
-        if (code === 'BAD_USER_INPUT') {
-          sendWrongMessage();
-        }
-      } else console.log(err);
-    }
-  });
-  const [fetchDeezerID] = useLazyQuery(GET_DEEZER_ID, {
-    onCompleted: data => {
-      const id = data.getTrackID ? data.getTrackID : 0;
-      sendDeezerMessage(id);
-      setDeezerID(id);
-    },
-    onError: err => {
-      if (err.graphQLErrors.length > 0) {
-        const { code } = err.graphQLErrors[0].extensions;
         if (code === 'BAD_USER_INPUT') {
           sendWrongMessage();
         }
@@ -240,13 +275,17 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
 
   const fetchDeezerHelper = async () => {
-    await fetchDeezerID({
-      variables: {
-        artist: songInfo[isAudio ? index : tries - 1].artist,
-        track: songInfo[isAudio ? index : tries - 1].title
-      }
-    });
+    const id = isAudio
+      ? songInfo[index].reference
+      : songInfo[tries - 1].reference;
+    sendDeezerMessage(id);
+    setDeezerID(id);
   };
+
+  useEffect(() => {
+    const scrollToLast = window.document.getElementById('scroll-to-last');
+    scrollToLast && scrollToLast.click();
+  }, [messages]);
 
   useEffect(() => {
     didTry
@@ -261,20 +300,8 @@ const ArnoChat = ({ className, gameStarted }) => {
   useEffect(() => {
     if (gameStarted) {
       (async () => setRecoder(await recordAudio()))();
-      sendGreetingMessage();
-    } else {
-      setIndex(0);
-      setMessages([]);
-      setMessage('');
-      setRecoder(null);
-      setTries(0);
-      setWin(false);
-      setExistBadUserInput(false);
-      setFirstStep('');
-      setRowGames(0);
-      setSongInfo(defaultSong);
-      setDeezerID(0);
-    }
+      messages.length === 0 && sendGreetingMessage();
+    } else clearChatContext();
   }, [gameStarted]);
 
   const startNewGame = async () => {
@@ -282,7 +309,7 @@ const ArnoChat = ({ className, gameStarted }) => {
     setTries(0);
     setSongInfo(defaultSong);
     setFirstStep('');
-    setDeezerID(0);
+    setDeezerID('0');
     setExistBadUserInput(false);
   };
   const agreeWithSong = async () => {
@@ -290,21 +317,14 @@ const ArnoChat = ({ className, gameStarted }) => {
     endGameWithWin();
   };
   const nextTry = async () => {
-    if (isTyping) {
-      if (tries < 5) {
+    if (tries < 5) {
+      if (isTyping) {
         songInfo.length === 1 ? sendWrongMessage() : incCountTries();
-      } else endGameWithoutWin(tries);
-    } else {
-      // console.log('tries in nextTry', tries);
-
-      if (tries < 5) {
+      } else {
         setIndex(index + 1);
-        // console.log('index in nextTry', index.get());
-
         sendWrongMessage();
-        // songInfo.length === 1 ? sendWrongMessage() : incCountTries();
-      } else endGameWithoutWin(tries);
-    }
+      }
+    } else endGameWithoutWin(tries);
   };
 
   const onSubmit = async () => {
@@ -326,7 +346,7 @@ const ArnoChat = ({ className, gameStarted }) => {
       setFirstStep('audio');
       setMessage({ ...message, recording: false });
       const audio = await recorder.stop();
-      sendUserMessage('Ваше аудио записно, ждите результата');
+      sendAudioWrittenMessage();
       await fetchAudioHelper(audio.base64);
     }
   };
@@ -336,25 +356,35 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
   return (
     <div className={`ArnoChat ${className}`}>
+      <a id="scroll-to-last" href={`#${messages.length - 1}`}></a>
       <div className="chat-wrapper">{messages}</div>
 
       <div className="bottom">
-        <input
-          type="text"
-          className={`input ${isTyping ? 'width-step-typing' : ''} ${
-            isAudio ? 'width-step-audio' : ''
-          }`}
-          value={message.message}
-          name="message"
-          onChange={onChange}
-          onKeyPress={onKeyPress}
-        />
-        {(firstStep === '' || isAudio) && (
-          <button
-            className="audio"
-            onMouseDown={onMouseDownHandler}
-            onMouseUp={onMouseUpHandler}
-          />
+        {isFinish ? (
+          <button className="btn-new-game" onClick={startNewGame}>
+            Начать новую игру
+          </button>
+        ) : (
+          <div>
+            <input
+              type="text"
+              className={`input ${isTyping ? 'width-step-typing' : ''} ${
+                isAudio ? 'width-step-audio' : ''
+              }`}
+              value={message.message}
+              name="message"
+              onChange={onChange}
+              onKeyPress={onKeyPress}
+            />
+
+            {isAudioOrEmpty && (
+              <button
+                className="audio"
+                onMouseDown={onMouseDownHandler}
+                onMouseUp={onMouseUpHandler}
+              />
+            )}
+          </div>
         )}
       </div>
     </div>

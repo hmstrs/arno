@@ -1,4 +1,6 @@
 .ArnoChat {
+  /* scroll-behavior: smooth; */
+
   width: 33vw;
   height: 100vh;
   position: fixed;
@@ -26,7 +28,11 @@
   border-radius: 10px;
 }
 
+#move-to-last {
+  display: none;
+}
 .chat-wrapper {
+  scroll-behavior: smooth;
   height: 90%;
   width: 100%;
   position: fixed;
@@ -119,7 +125,7 @@
     transform: translateY(100vh);
   }
   .chat-wrapper {
-    padding-bottom: 80px;
+    padding-bottom: 100px;
   }
   .bottom {
     background-color: #ff4e00;
