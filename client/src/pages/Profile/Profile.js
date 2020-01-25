@@ -13,11 +13,11 @@ const GET_USER = gql`
     user(id: $id) {
       name
       games {
-				win
+        win
       }
-			favourites {
-				title
-			}
+      favourites {
+        title
+      }
     }
   }
 `;
@@ -36,7 +36,7 @@ const Profile = props => {
   };
   const prepareUser = (game, favourites) => ({
     games: game.length,
-    favourites: favourites.length,
+    favourites: favourites.length
   });
   const { loading, error, data } = useQuery(GET_USER, {
     variables: {
@@ -83,7 +83,7 @@ const Profile = props => {
                 <div className="text">
                   <span className="history">{user.games}</span>
                   <br />
-                  <span className="sub-text">games</span>
+                  <span className="sub-text">Игры</span>
                 </div>
               </Navlink>
             </div>
@@ -97,7 +97,7 @@ const Profile = props => {
                 <div className="text">
                   <span className="history">{user.favourites}</span>
                   <br />
-                  <span className="sub-text">favourites</span>
+                  <span className="sub-text">Избранные</span>
                 </div>
               </Navlink>
             </div>
@@ -110,7 +110,7 @@ const Profile = props => {
     <div className="Page Profile">
       <Col xs={12} sm={{ span: 10, offset: 1 }} className="header">
         <Col>
-          <div className="text">Profile</div>
+          <div className="text">Профиль</div>
         </Col>
         <Col>
           <Button
