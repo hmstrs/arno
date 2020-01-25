@@ -17,8 +17,10 @@ const GET_GAMES = gql`
       games {
         win
         song {
+          _id
           title
           artist
+          reference
         }
         tries
       }
@@ -75,23 +77,29 @@ const History = () => {
         </p>
       </center>
     ) : (
-      games.reverse().map(({ win, song: { title, artist }, tries }) => (
-        <div className="card card-history" key={Math.random()}>
-          <div className="win">
-            <FaTrophy
-              style={{
-                color: win ? '#f96900' : '#fff',
-                fontSize: '56px'
-              }}
-            />{' '}
-            tries: {tries}
+      games.reverse().map(({ win, song: { title, artist, _id }, tries }) => (
+        <a
+          key={Math.random()}
+          className="link-to-player"
+          href={`/track/${_id}`}
+        >
+          <div className="card card-history">
+            <div className="win">
+              <FaTrophy
+                style={{
+                  color: win ? '#f96900' : '#fff',
+                  fontSize: '56px'
+                }}
+              />{' '}
+              tries: {tries}
+            </div>
+            <div>
+              {title}
+              <br />
+              by {artist}
+            </div>
           </div>
-          <div>
-            {title}
-            <br />
-            by {artist}
-          </div>
-        </div>
+        </a>
       ))
     );
 

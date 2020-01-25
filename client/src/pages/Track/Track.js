@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { Col, Spinner } from 'react-bootstrap';
+import React, { useEffect, useState, Fragment } from 'react';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 import './Track.css';
 
-const frameProperties = {
-  className: "frame",
-  scrolling: "no",
-  frameBorder: "0",
-  allowtransparency: "true",
-  width: "400",
-  height: "400"
-};
-
 const GET_SONG = gql`
- query song($id: ID!) {
-  getSong(id: $id) {
-    id
-    reference
-    title
-    artist
-    listened
-    favourited
+  query song($id: ID!) {
+    getSong(id: $id) {
+      reference
+      title
+      artist
+      listened
+      favourited
+    }
+    checkInFavourites(id: $id)
   }
-  checkInFavourites(id: $id) 
- }
 `;
 
 const ADD_TO_FAVOURITE = gql`
@@ -37,9 +27,23 @@ const ADD_TO_FAVOURITE = gql`
   }
 `;
 
-const createId = id => `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=400&height=400&color=ff0000&layout=dark&size=medium&type=playlist&id=${id}&app_id=1`;
+const createId = id => {
+  return `https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=400&height=400&color=ff8300&layout=dark&size=medium&type=tracks&id=${id}&app_id=1`;
+};
 
-const createFrame = (props, src) => <iframe {...props} src={src}/>;
+const createFrame = src => (
+  <div className="frame-track mx-auto">
+    <iframe
+      scrolling="no"
+      frameBorder="0"
+      allowtransparency="true"
+      width="400"
+      height="400"
+      src={src}
+    />
+    ;
+  </div>
+);
 
 const Track = () => {
   const [song, setSong] = useState({});
@@ -60,12 +64,23 @@ const Track = () => {
     // поменять кнопочку
     setFavourite(true);
   };
-  
+
   const createButtons = (listened, favourited) => {
     return (
       <div className="buttons">
-        <p className="card music">listened<br/><p className="counter">{listened}</p></p>
-        <p className="card music" onClick={e => !favourite ? addToUserFavourites() : null}>{favourite ? "favourited" : "add to favourite"}<br/><p className="counter">{favourited}</p></p>
+        <div className="card music">
+          listened
+          <br />
+          <p className="counter">{listened}</p>
+        </div>
+        <div
+          className="card music"
+          onClick={e => (!favourite ? addToUserFavourites() : null)}
+        >
+          {favourite ? 'favourited' : 'add to favourite'}
+          <br />
+          <p className="counter">{favourited}</p>
+        </div>
       </div>
     );
   };
@@ -73,9 +88,8 @@ const Track = () => {
   useEffect(() => {
     if (data) {
       setSong(data.getSong);
-      setFavourite(data.checkInFavourites)
+      setFavourite(data.checkInFavourites);
     }
-    console.log(data);
   }, [data]);
 
   useEffect(() => {
@@ -83,17 +97,23 @@ const Track = () => {
   }, [error]);
   return loading ? (
     <Spinner animation="border" />
-  ) : (error && id === "0") ? <p className="text track-info" margin-top="3%" >Sorry deezer can't play your song</p> :
-  (
+  ) : error || (song && song.reference === '0') ? (
+    <Fragment>
+      <p className="text track-info" margin-top="3%">
+        Sorry deezer can't play your song
+      </p>
+    </Fragment>
+  ) : (
     <div className="Page Track">
       <div className="text track-info">
         <p className="trackName">{song.title}</p>
         <p className="artistName">{song.artist}</p>
       </div>
-      { createFrame(frameProperties, createId(parseInt(song.reference))) }
-      { createButtons(song.listened, song.favourited) }
-    </div>  
+      {song && song.reference && createFrame(createId(song.reference))}
+
+      {createButtons(song.listened, song.favourited)}
+    </div>
   );
 };
 
-export default Track
+export default Track;
