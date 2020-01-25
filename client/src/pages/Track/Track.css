@@ -1,1 +1,66 @@
+.player {
+  position: absolute;
+  text-align: center;
+}
 
+.Track {
+  flex-direction: column;
+  display: flex;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+}
+
+.frame {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  /* margin-top: 5%; */
+}
+
+.music {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  padding: 2%;
+  margin: 3%;
+  max-height: 50%;
+  text-align: center;
+}
+
+.counter {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.trackName {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.artistName {
+  font-family: SFfont;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.track-info {
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+}
+
+.idk {
+  padding-top: 3%;
+}
