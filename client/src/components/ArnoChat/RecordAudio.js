@@ -15,11 +15,6 @@ const recordAudio = () =>
     if (MediaRecorder.notSupported) {
       alert('not support MediaRecorder but we will try');
     }
-    // const hasGetUserMedia = () =>
-    // !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
-    // if (!hasGetUserMedia()) {
-    //   reject('getUserMedia() is not support by your browser');
-    // }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new window.MediaRecorder(stream);
@@ -53,7 +48,9 @@ const recordAudio = () =>
       resolve({ start, stop });
     } catch (err) {
       console.log(err);
-      alert('Вы не предоставили доступ на запись микрофона');
+      alert(
+        'Вы не предоставили доступ на запись микрофона, Дайте права на запись в настройках сайта'
+      );
     }
   });
 

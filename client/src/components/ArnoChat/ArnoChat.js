@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ArnoMessage from './ArnoMessage/ArnoMessage';
 import UserMessage from './UserMessage/UserMessage';
 import PlaySongMessage from './PlaySongMessage/PlaySongMessage';
-import recordAudio from './RecordAudio';
+import recordAudio from './recordAudio';
 import { compareObjs, offeredWithoutSong } from '../../tools/objectOperations';
 import './ArnoChat.css';
 import { useLazyQuery, useMutation } from '@apollo/react-hooks';
@@ -345,6 +345,9 @@ const ArnoChat = ({ className, gameStarted }) => {
   const onKeyPress = e => (e.key === 'Enter' ? onSubmit() : null);
 
   const onMouseUpHandler = async () => {
+    console.log('recorder pause', recorder);
+    // alert('recorder pause ' + JSON.stringify(recorder, null, 4));
+
     if (recorder && message.recording) {
       setFirstStep('audio');
       setMessage({ ...message, recording: false });
@@ -354,6 +357,7 @@ const ArnoChat = ({ className, gameStarted }) => {
     }
   };
   const onMouseDownHandler = async () => {
+    // alert('recorder start ' + JSON.stringify(recorder, null, 4));
     if (recorder) {
       try {
         await recorder.start();
@@ -393,6 +397,8 @@ const ArnoChat = ({ className, gameStarted }) => {
             {isAudioOrEmpty && (
               <button
                 className="audio"
+                onTouchStart={onMouseDownHandler}
+                onTouchEnd={onMouseUpHandler}
                 onMouseDown={onMouseDownHandler}
                 onMouseUp={onMouseUpHandler}
               />
