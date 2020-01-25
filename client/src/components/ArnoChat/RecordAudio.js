@@ -7,8 +7,14 @@ const makeBase64 = async audioBlob =>
       resolve(base64AudioMessage);
     };
   });
+
 const recordAudio = () =>
   new Promise(async (resolve, reject) => {
+    const hasGetUserMedia = () =>
+      !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    if (!hasGetUserMedia()) {
+      reject('getUserMedia() is not support by your browser');
+    }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);

@@ -351,8 +351,12 @@ const ArnoChat = ({ className, gameStarted }) => {
   };
   const onMouseDownHandler = async () => {
     if (recorder) {
-      await recorder.start();
-      setMessage({ ...message, recording: true });
+      try {
+        await recorder.start();
+        setMessage({ ...message, recording: true });
+      } catch (err) {
+        alert(err);
+      }
     } else {
       alert('Вы не предоставили доступ на запись микрофона');
     }
