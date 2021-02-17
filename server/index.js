@@ -30,6 +30,14 @@ const getUser = async req => {
 const server = new ApolloServer({
   typeDefs: schemas,
   resolvers,
+  engine: {
+    rewriteError (err) {
+      // logging here
+      // preventing throwing error to client also here
+      // example https://www.apollographql.com/docs/apollo-server/data/errors/
+      return err
+    }
+  },
   context: async ({ ctx: { req } }) => {
     if (req) {
       const me = await getUser(req);
